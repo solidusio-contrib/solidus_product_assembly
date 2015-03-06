@@ -8,6 +8,7 @@ module Spree
           quantity = variant_quantity - inventory_units
 
           next if quantity <= 0
+          next unless variant
 
           quantifier = Stock::Quantifier.new(variant)
 
