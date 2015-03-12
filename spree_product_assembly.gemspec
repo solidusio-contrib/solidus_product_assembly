@@ -16,7 +16,6 @@ Gem::Specification.new do |s|
   s.requirements << 'none'
 
   s.add_dependency 'spree_backend', '~> 2.4.0'
-  s.add_dependency 'active_model_serializers', '0.9.0.alpha1'
 
   s.add_development_dependency 'rspec-rails', '~> 3.1.0'
   s.add_development_dependency 'sqlite3'
