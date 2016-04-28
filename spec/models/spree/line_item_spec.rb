@@ -22,7 +22,8 @@ module Spree
         end
 
         it "doesn't save line item quantity" do
-          expect { order.contents.add(variant, 10) }.to raise_error ActiveRecord::RecordInvalid
+          order.contents.add(variant, 10)
+          expect { order.contents.advance }.to raise_error Spree::Order::InsufficientStock
         end
       end
 
