@@ -1,7 +1,7 @@
 source "https://rubygems.org"
 
-branch = '2-4-stable'
-gem 'spree', github: 'spree/spree', branch: branch
+branch = ENV.fetch('SOLIDUS_BRANCH', 'master')
+gem 'solidus', github: 'solidusio/solidus', branch: branch
 
 gem 'pry-rails'
 
