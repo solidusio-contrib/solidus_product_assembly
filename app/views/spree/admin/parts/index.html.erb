@@ -1,4 +1,5 @@
-<%= render :partial => 'spree/admin/shared/product_sub_menu' %>
+<%# This partial was remove in solidus 1.2 but that is also when Spree.solidus_version was added %>
+<%= render :partial => 'spree/admin/shared/product_sub_menu' if !spree.respond_to?(:solidus_version) %>
 
 <%= render :partial => 'spree/admin/shared/product_tabs', :locals => {:current => "Parts"} %>
 <div id="product_parts">
