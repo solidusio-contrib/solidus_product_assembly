@@ -15,7 +15,7 @@ Gem::Specification.new do |s|
 
   s.author            = 'Roman Smirnov'
   s.email             = 'roman@railsdog.com'
-  s.homepage          = 'https://github.com/spree/spree-product-assembly'
+  s.homepage          = 'https://solidus.io'
 
   s.files         = `git ls-files`.split("\n")
   s.test_files    = `git ls-files -- spec/*`.split("\n")
