@@ -1,7 +1,6 @@
 # Product Assembly
 
-[![Build Status](https://secure.travis-ci.org/spree-contrib/spree-product-assembly.png)](https://travis-ci.org/spree-contrib/spree-product-assembly)
-[![Code Climate](https://codeclimate.com/github/spree-contrib/spree-product-assembly.png)](https://codeclimate.com/github/spree-contrib/spree-product-assembly)
+[![Build Status](https://travis-ci.org/Sinetheta/spree-product-assembly.svg?branch=solidus)](https://travis-ci.org/Sinetheta/spree-product-assembly)
 
 Create a product which is composed of other products.
 
