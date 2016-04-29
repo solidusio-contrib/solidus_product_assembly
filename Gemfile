@@ -3,6 +3,9 @@ source "https://rubygems.org"
 branch = ENV.fetch('SOLIDUS_BRANCH', 'master')
 gem 'solidus', github: 'solidusio/solidus', branch: branch
 
-gem 'pry-rails'
+group :development, :test do
+  gem 'solidus_auth_devise'
+  gem 'pry-rails'
+end
 
 gemspec
