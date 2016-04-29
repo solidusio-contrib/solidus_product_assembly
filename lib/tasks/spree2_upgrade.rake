@@ -1,4 +1,4 @@
-namespace :spree_product_assembly do
+namespace :solidus_product_assembly do
   desc 'Link legacy inventory units to an order line item'
   task :upgrade => :environment do
     shipments = Spree::Shipment.includes(:inventory_units).where("spree_inventory_units.line_item_id IS NULL")

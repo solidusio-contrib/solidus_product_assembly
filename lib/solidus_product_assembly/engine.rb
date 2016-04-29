@@ -1,6 +1,6 @@
-module SpreeProductAssembly
+module SolidusProductAssembly
   class Engine < Rails::Engine
-    engine_name 'spree_product_assembly'
+    engine_name 'solidus_product_assembly'
 
     config.autoload_paths += %W(#{config.root}/lib)
 

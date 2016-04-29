@@ -1,14 +1,14 @@
-module SpreeProductAssembly
+module SolidusProductAssembly
   module Generators
     class InstallGenerator < Rails::Generators::Base
       class_option :auto_run_migrations, :type => :boolean, :default => false
 
       def add_migrations
-        run 'rake railties:install:migrations FROM=spree_product_assembly'
+        run 'rake railties:install:migrations FROM=solidus_product_assembly'
       end
 
       def add_javascripts
-        append_file "vendor/assets/javascripts/spree/backend/all.js", "//= require spree/backend/spree_product_assembly\n"
+        append_file "vendor/assets/javascripts/spree/backend/all.js", "//= require spree/backend/solidus_product_assembly\n"
       end
 
       def run_migrations

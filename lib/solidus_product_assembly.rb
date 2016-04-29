@@ -1,0 +1,5 @@
+require 'spree_core'
+require 'solidus_product_assembly/engine'
+require 'solidus_product_assembly/version'
+require 'coffee_script'
+require 'sass/rails'
