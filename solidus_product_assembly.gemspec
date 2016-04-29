@@ -1,9 +1,14 @@
 # encoding: UTF-8
 
+lib = File.expand_path('../lib/', __FILE__)
+$:.unshift lib unless $:.include?(lib)
+
+require 'solidus_product_assembly/version'
+
 Gem::Specification.new do |s|
   s.platform    = Gem::Platform::RUBY
   s.name        = 'solidus_product_assembly'
-  s.version     = '2.2.0.beta'
+  s.version     = SolidusProductAssembly::VERSION
   s.summary     = 'Adds oportunity to make bundle of products to your Spree store'
   s.description = s.summary
   s.required_ruby_version = '>= 1.9.3'
