@@ -1,4 +1,5 @@
-<%= render :partial => 'spree/admin/shared/product_sub_menu' %>
+<%# This partial was remove in solidus 1.2 but that is also when Spree.solidus_version was added %>
+<%= render :partial => 'spree/admin/shared/product_sub_menu' if !spree.respond_to?(:solidus_version) %>
 
 <%= render :partial => 'spree/admin/shared/product_tabs', :locals => {:current => "Parts"} %>
 <div id="product_parts">
@@ -22,15 +23,15 @@
 
   function search_for_parts(){
     $.ajax({
-     data: {q: $("#searchtext").val() }, 
+     data: {q: $("#searchtext").val() },
      dataType: 'html',
      success: function(request){
        jQuery('#search_hits').html(request);
        $('#search_hits').show();
-     }, 
-     type: 'POST', 
+     },
+     type: 'POST',
      url: '<%= available_admin_product_parts_url(@product) %>'
-    });    
+    });
   }
 
   $("#searchtext").keypress(function (e) {
@@ -53,7 +54,7 @@
       params = { count :  $("input", $(this).parent().parent()).val() };
       return make_post_request($(this), params);
     });
-    
+
     $("a.remove_admin_product_part_link").click(function(){
       return make_post_request($(this), {});
     });
@@ -61,12 +62,7 @@
 
   function make_post_request(link, post_params)
   {
-    spinner = $("img.spinner", link.parent())
-    spinner.show();
-    $.post(link.attr("href"), post_params,
-      function (data, textStatus) { spinner.hide(); },
-      "script");
-
+    $.post(link.attr("href"), post_params, "script");
     return false;
   }
 

@@ -53,4 +53,5 @@ RSpec.configure do |config|
 
   config.include FactoryGirl::Syntax::Methods
   config.include Spree::TestingSupport::UrlHelpers
+  config.example_status_persistence_file_path = "./spec/examples.txt"
 end

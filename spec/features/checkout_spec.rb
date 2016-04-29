@@ -1,6 +1,7 @@
 require 'spec_helper'
 
 describe "Checkout", type: :feature do
+  let!(:store) { create :store, default: true }
   let!(:country) { create(:country, :name => "United States", :states_required => true) }
   let!(:state) { create(:state, :name => "Ohio", :country => country) }
   let!(:shipping_method) { create(:shipping_method) }
@@ -21,6 +22,7 @@ describe "Checkout", type: :feature do
       click_button "Checkout"
 
       fill_in "order_email", :with => "ryan@spreecommerce.com"
+      click_button "Continue"
       fill_in_address
 
       click_button "Save and Continue"
@@ -31,8 +33,11 @@ describe "Checkout", type: :feature do
       expect(current_path).to eql(spree.checkout_state_path("payment"))
 
       click_button "Save and Continue"
-      expect(current_path).to eql(spree.order_path(Spree::Order.last))
+      expect(current_path).to eq spree.checkout_state_path('confirm')
       page.should have_content(variant.product.name)
+
+      click_button "Place Order"
+      page.should have_content('Your order has been processed successfully')
     end
   end
 

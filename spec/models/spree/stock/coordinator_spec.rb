@@ -1,5 +1,11 @@
 require 'spec_helper'
 
+# Spree::Stock::Coordinator was refactored in Solidus to hide keep private
+# information about packages, we have to be sneaky to reach inside
+def inventory_units(coordinator)
+  coordinator.shipments.flat_map { |s| s.inventory_units }
+end
+
 module Spree
   module Stock
     describe Coordinator do
@@ -18,7 +24,7 @@ module Spree
           it "calculates items quantity properly" do
             expected_units_on_package = order.line_items.to_a.sum(&:quantity) - bundle_item_quantity + (bundle.parts.count * bundle_item_quantity)
 
-            expect(subject.packages.sum(&:quantity)).to eql expected_units_on_package
+            expect(inventory_units(subject).size).to eql expected_units_on_package
           end
         end
       end
@@ -38,7 +44,7 @@ module Spree
 
         it "haha" do
           expected_units_on_package = order.line_items.to_a.sum(&:quantity) - bundle_item_quantity + (bundle.parts.count * bundle_item_quantity)
-          expect(subject.packages.sum(&:quantity)).to eql expected_units_on_package
+          expect(inventory_units(subject).size).to eql expected_units_on_package
         end
       end
     end

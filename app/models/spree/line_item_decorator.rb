@@ -23,7 +23,7 @@ module Spree
     end
 
     def quantity_by_variant
-      if self.product.assembly? && !product.decouple_inventory_from_parts?
+      if self.product.assembly?
         {}.tap { |hash| self.product.assemblies_parts.each { |ap| hash[ap.part] = ap.count * self.quantity } }
       else
         { self.variant => self.quantity }

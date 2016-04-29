@@ -2,6 +2,7 @@ require 'spec_helper'
 
 module Spree
   describe OrderContents do
+    let!(:store) { create :store }
     let(:order) { Order.create }
 
     let(:guitar) { create(:variant) }
