@@ -1,16 +1,21 @@
 # encoding: UTF-8
 
+lib = File.expand_path('../lib/', __FILE__)
+$:.unshift lib unless $:.include?(lib)
+
+require 'solidus_product_assembly/version'
+
 Gem::Specification.new do |s|
   s.platform    = Gem::Platform::RUBY
-  s.name        = 'spree_product_assembly'
-  s.version     = '2.2.0.beta'
+  s.name        = 'solidus_product_assembly'
+  s.version     = SolidusProductAssembly::VERSION
   s.summary     = 'Adds oportunity to make bundle of products to your Spree store'
   s.description = s.summary
   s.required_ruby_version = '>= 1.9.3'
 
   s.author            = 'Roman Smirnov'
   s.email             = 'roman@railsdog.com'
-  s.homepage          = 'https://github.com/spree/spree-product-assembly'
+  s.homepage          = 'https://solidus.io'
 
   s.files         = `git ls-files`.split("\n")
   s.test_files    = `git ls-files -- spec/*`.split("\n")
