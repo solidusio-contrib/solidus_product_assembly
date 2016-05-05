@@ -1,6 +1,6 @@
 # Product Assembly
 
-[![Build Status](https://travis-ci.org/Sinetheta/spree-product-assembly.svg?branch=solidus)](https://travis-ci.org/Sinetheta/spree-product-assembly)
+[![Build Status](https://travis-ci.org/solidusio-contrib/solidus_product_assembly.svg?branch=master)](https://travis-ci.org/solidusio-contrib/solidus_product_assembly)
 
 Create a product which is composed of other products.
 
