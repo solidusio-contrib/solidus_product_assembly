@@ -14,7 +14,7 @@ describe "Checkout", type: :feature do
 
   stub_authorization!
 
-  before { product.parts.push variant }
+  before { product.parts << variant << create(:variant) }
 
   shared_context "purchases product with part included" do
     before do
