@@ -10,3 +10,5 @@ en:
     product_bundles: Product Bundles
     parts_included: Parts included
     part_of_bundle: 'Part of bundle %{sku}'
+    actions:
+      delete: 'Delete'
