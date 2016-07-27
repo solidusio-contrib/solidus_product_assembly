@@ -8,7 +8,7 @@ Create a product which is composed of other products.
 
 Add the following line to your `Gemfile`
 ```ruby
-gem 'solidus_product_assembly', github: 'spree-contrib/spree-product-assembly', branch: 'master'
+gem 'solidus_product_assembly', github: 'solidusio-contrib/solidus_product_assembly', branch: 'master'
 ```
 
 Run bundle install as well as the extension intall command to copy and run migrations and
