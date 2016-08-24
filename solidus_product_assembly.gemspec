@@ -22,7 +22,7 @@ Gem::Specification.new do |s|
   s.require_path = 'lib'
   s.requirements << 'none'
 
-  s.add_runtime_dependency 'solidus_backend', ["~> 1.0"]
+  s.add_runtime_dependency 'solidus_backend', [">= 1.0", "< 3"]
 
   s.add_development_dependency 'rspec-rails', '~> 3.4'
   s.add_development_dependency 'sqlite3'
@@ -32,5 +32,4 @@ Gem::Specification.new do |s|
   s.add_development_dependency 'poltergeist', '~> 1.9'
   s.add_development_dependency 'database_cleaner', '~> 1.3'
   s.add_development_dependency 'simplecov'
-  s.add_development_dependency 'pg'
 end
