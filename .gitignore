@@ -2,3 +2,4 @@ spec/dummy
 Gemfile.lock
 coverage
 spec/examples.txt
+pkg/
