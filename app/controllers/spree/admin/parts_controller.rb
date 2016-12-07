@@ -1,5 +1,5 @@
 class Spree::Admin::PartsController < Spree::Admin::BaseController
-  before_filter :find_product
+  before_action :find_product
 
   def index
     @parts = @product.parts
