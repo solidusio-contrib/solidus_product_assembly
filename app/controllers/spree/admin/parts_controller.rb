@@ -1,5 +1,5 @@
 class Spree::Admin::PartsController < Spree::Admin::BaseController
-  before_filter :find_product
+  before_action :find_product
 
   def index
     @parts = @product.parts
@@ -22,8 +22,7 @@ class Spree::Admin::PartsController < Spree::Admin::BaseController
       @available_products = []
     else
       query = "%#{params[:q]}%"
-      @available_products = Spree::Product.search_can_be_part(query)
-      @available_products.uniq!
+      @available_products = Spree::Product.search_can_be_part(query).distinct
     end
     respond_to do |format|
       format.html {render :layout => false}

@@ -1,6 +1,6 @@
 <% ship_form.object.line_item_manifest.each do |item| %>
   <tr class="stock-item">
-    <td class="item-image"><%= mini_image(item.variant) %></td>
+    <td class="item-image"><%= image_tag item.variant.display_image.attachment(:mini) %></td>
     <td class="item-name">
       <%= item.variant.name %>
       <%= render 'spree/orders/cart_description', variant: item.variant, line_item: item.line_item %>

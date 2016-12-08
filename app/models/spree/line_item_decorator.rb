@@ -1,6 +1,6 @@
 module Spree
   LineItem.class_eval do
-    scope :assemblies, -> { joins(:product => :parts).uniq }
+    scope :assemblies, -> { joins(:product => :parts).distinct }
 
     def any_units_shipped?
       inventory_units.any? { |unit| unit.shipped? }
