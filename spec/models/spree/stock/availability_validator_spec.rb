@@ -53,9 +53,9 @@ module Spree
 
         it 'should be invalid when supply of 1 part is insufficient' do
           Stock::Quantifier.any_instance.stub(can_supply?: false)
-          inventory_units = [double(variant: line_item.parts.first)] * 5
-          line_item.parts.first.stub(inventory_units: inventory_units)
-          expect(line_item.inventory_units).to receive(:where).and_return(inventory_units, [])
+          5.times do
+            create(:inventory_unit, line_item: line_item, variant: line_item.parts.first, order: order, shipment: order.shipments.first)
+          end
           expect(line_item.errors).to receive(:[]).exactly(1).times.with(:quantity).and_return([])
           subject.validate(line_item)
         end
