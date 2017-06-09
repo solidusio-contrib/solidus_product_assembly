@@ -1,4 +1,4 @@
-class AddManyToManyRelationToProducts < ActiveRecord::Migration
+class AddManyToManyRelationToProducts < SolidusSupport::Migration[4.2]
   def self.up
     create_table :assemblies_parts, :id => false do |t|
       t.integer "assembly_id", :null => false

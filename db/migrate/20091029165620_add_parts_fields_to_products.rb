@@ -1,4 +1,4 @@
-class AddPartsFieldsToProducts < ActiveRecord::Migration
+class AddPartsFieldsToProducts < SolidusSupport::Migration[4.2]
   def self.up
     table = if table_exists?(:products)
       'products'
