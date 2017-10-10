@@ -8,8 +8,14 @@ end
 
 module Spree
   module Stock
-    describe Coordinator do
-      subject { Coordinator.new(order) }
+    coordinator_class =
+      if SolidusSupport.solidus_gem_version < Gem::Version.new('2.4.x')
+        Coordinator
+      else
+        SimpleCoordinator
+      end
+    describe coordinator_class do
+      subject { described_class.new(order) }
 
       context "order shares variant as individual and within bundle" do
         include_context "product is ordered as individual and within a bundle"

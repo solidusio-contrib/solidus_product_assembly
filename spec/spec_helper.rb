@@ -36,7 +36,7 @@ RSpec.configure do |config|
     DatabaseCleaner.clean_with :truncation
   end
 
-  config.before(:each) do
+  config.prepend_before(:each) do
     Rails.cache.clear
 
     if RSpec.current_example.metadata[:js]
@@ -48,10 +48,7 @@ RSpec.configure do |config|
     DatabaseCleaner.start
   end
 
-  config.after(:each) do
-    # Ensure js requests finish processing before advancing to the next test
-    wait_for_ajax if RSpec.current_example.metadata[:js]
-
+  config.append_after(:each) do
     DatabaseCleaner.clean
   end
 
