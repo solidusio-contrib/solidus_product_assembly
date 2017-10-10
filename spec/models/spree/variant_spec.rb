@@ -20,7 +20,7 @@ module Spree
 
       context "variant no assembly" do
         it "returns both products" do
-          variant.assemblies_for([mug, tshirt]).should be_empty
+          expect(variant.assemblies_for([mug, tshirt])).to be_empty
         end
       end
     end
