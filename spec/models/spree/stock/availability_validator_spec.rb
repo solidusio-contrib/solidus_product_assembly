@@ -10,20 +10,20 @@ module Spree
         subject { described_class.new }
 
         it 'should be valid when supply is sufficient' do
-          Stock::Quantifier.any_instance.stub(can_supply?: true)
+          allow_any_instance_of(Stock::Quantifier).to receive(:can_supply?).and_return(true)
           expect(line_item).not_to receive(:errors)
           subject.validate(line_item)
         end
 
         it 'should be invalid when supply is insufficent' do
-          Stock::Quantifier.any_instance.stub(can_supply?: false)
+          allow_any_instance_of(Stock::Quantifier).to receive(:can_supply?).and_return(false)
           expect(line_item.errors).to receive(:[]).exactly(1).times.with(:quantity).and_return([])
           subject.validate(line_item)
         end
 
         it 'should consider existing inventory_units sufficient' do
-          Stock::Quantifier.stub(can_supply?: false)
-          line_item.inventory_units.stub(where: [double] * 5)
+          allow_any_instance_of(Stock::Quantifier).to receive(:can_supply?).and_return(false)
+          allow(line_item.inventory_units).to receive(:where).and_return([double] * 5)
           expect(line_item).not_to receive(:errors)
           subject.validate(line_item)
         end
@@ -40,19 +40,19 @@ module Spree
         subject { described_class.new }
 
         it 'should be valid when supply of all parts is sufficient' do
-          Stock::Quantifier.any_instance.stub(can_supply?: true)
+          allow_any_instance_of(Stock::Quantifier).to receive(:can_supply?).and_return(true)
           expect(line_item).not_to receive(:errors)
           subject.validate(line_item)
         end
 
         it 'should be invalid when supplies of all parts are insufficent' do
-          Stock::Quantifier.any_instance.stub(can_supply?: false)
+          allow_any_instance_of(Stock::Quantifier).to receive(:can_supply?).and_return(false)
           expect(line_item.errors).to receive(:[]).exactly(line_item.parts.size).times.with(:quantity).and_return([])
           subject.validate(line_item)
         end
 
         it 'should be invalid when supply of 1 part is insufficient' do
-          Stock::Quantifier.any_instance.stub(can_supply?: false)
+          allow_any_instance_of(Stock::Quantifier).to receive(:can_supply?).and_return(false)
           5.times do
             create(:inventory_unit, line_item: line_item, variant: line_item.parts.first, order: order, shipment: order.shipments.first)
           end
@@ -61,7 +61,9 @@ module Spree
         end
 
         it 'should be valid when supply of each part is sufficient' do
-          line_item.parts.each { |part| part.stub(inventory_units: [double(variant: part)] * 5) }
+          line_item.parts.each do |part|
+            allow(part).to receive(:inventory_units).and_return([double(variant: part)] * 5)
+          end
           expect(line_item).not_to receive(:errors)
           subject.validate(line_item)
         end

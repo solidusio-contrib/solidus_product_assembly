@@ -54,7 +54,7 @@ module Spree
 
       it "verifies inventory units via OrderInventoryAssembly" do
         expect(OrderInventoryAssembly).to receive(:new).with(line_item).and_return(inventory)
-        inventory.should_receive(:verify).with(line_item.target_shipment)
+        expect(inventory).to receive(:verify).with(line_item.target_shipment)
         line_item.quantity = 2
         line_item.save
       end
@@ -63,7 +63,7 @@ module Spree
     context "updates regular line item" do
       it "verifies inventory units via OrderInventory" do
         expect(OrderInventory).to receive(:new).with(line_item.order, line_item).and_return(inventory)
-        inventory.should_receive(:verify).with(line_item.target_shipment)
+        expect(inventory).to receive(:verify).with(line_item.target_shipment)
         line_item.quantity = 2
         line_item.save
       end

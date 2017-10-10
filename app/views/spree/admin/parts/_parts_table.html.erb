@@ -15,13 +15,17 @@
         <td><%= variant_options part %></td>
         <td><%= text_field_tag :count, @product.count_of(part) %></td>
   	    <td class="actions">
-          <%= link_to(icon('edit'),
-                      set_count_admin_product_part_url(@product, part),
-                      :class => "set_count_admin_product_part_link save-line-item fa fa-ok no-text") %>
+          <%= link_to_with_icon(
+            'edit',
+            Spree.t('actions.edit'),
+            set_count_admin_product_part_url(@product, part),
+            :class => "set_count_admin_product_part_link save-line-item") %>
 
-          <%= link_to(icon('delete'),
-                      remove_admin_product_part_url(@product, part),
-                      :class => "remove_admin_product_part_link delete-line-item fa fa-trash no-text") %>
+          <%= link_to_with_icon(
+            'delete',
+            Spree.t('actions.delete'),
+            remove_admin_product_part_url(@product, part),
+            class: "remove_admin_product_part_link delete-line-item") %>
   	    </td>
       </tr>
     <% end %>

@@ -19,7 +19,7 @@ describe "Parts", type: :feature, js: true do
     click_on "Search"
 
     within("#search_hits") { click_on "Select" }
-    page.should have_content(mug.sku)
+    expect(page).to have_content(mug.sku)
 
     within("#product_parts") do
       find(".remove_admin_product_part_link").click

@@ -27,17 +27,17 @@ describe "Checkout", type: :feature do
 
       click_button "Save and Continue"
       expect(current_path).to eql(spree.checkout_state_path("delivery"))
-      page.should have_content(variant.product.name)
+      expect(page).to have_content(variant.product.name)
 
       click_button "Save and Continue"
       expect(current_path).to eql(spree.checkout_state_path("payment"))
 
       click_button "Save and Continue"
       expect(current_path).to eq spree.checkout_state_path('confirm')
-      page.should have_content(variant.product.name)
+      expect(page).to have_content(variant.product.name)
 
       click_button "Place Order"
-      page.should have_content('Your order has been processed successfully')
+      expect(page).to have_content('Your order has been processed successfully')
     end
   end
 
@@ -50,7 +50,7 @@ describe "Checkout", type: :feature do
         visit spree.admin_orders_path
         click_on Spree::Order.last.number
 
-        page.should have_content(variant.product.name)
+        expect(page).to have_content(variant.product.name)
       end
     end
 
@@ -66,7 +66,7 @@ describe "Checkout", type: :feature do
         visit spree.admin_orders_path
         click_on Spree::Order.last.number
 
-        page.should have_content(variant.product.name)
+        expect(page).to have_content(variant.product.name)
       end
     end
 
