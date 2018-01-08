@@ -32,9 +32,9 @@
         </td>
         <td><%= text_field_tag "part[count]", 1 %></td>
 		    <td class="actions">
-		      <%= link_to(icon('add') + ' ' + Spree.t(:select), 
+		      <%= link_to(Spree.t(:select),
 		                  admin_product_parts_path(@product),
-		                  :class => "add_product_part_link") %>
+		                  :class => "add_product_part_link btn btn-primary") %>
 		    </td>
       </tr>
     <% end %>

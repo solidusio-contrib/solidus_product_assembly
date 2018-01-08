@@ -32,7 +32,8 @@ module Spree
 
     private
       def update_inventory
-        if (changed? || target_shipment.present?) && self.order.has_checkout_step?("delivery")
+        saved_changes = respond_to?(:saved_changes?) ? saved_changes? : changed?
+        if (saved_changes || target_shipment.present?) && self.order.has_checkout_step?("delivery")
           if self.product.assembly?
             OrderInventoryAssembly.new(self).verify(target_shipment)
           else
