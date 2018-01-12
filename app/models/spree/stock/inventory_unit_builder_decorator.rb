@@ -10,6 +10,14 @@ module Spree
       end
 
       def build_inventory_unit(variant, line_item)
+        inventory_unit_attributes = {
+          pending: true,
+          variant: variant,
+          line_item: line_item,
+        }
+        if SolidusSupport.solidus_gem_version < Gem::Version.new('2.5.x')
+          inventory_unit_attributes[:order] = @order
+        end
         @order.inventory_units.includes(
           variant: {
             product: {
@@ -18,12 +26,7 @@ module Spree
               }
             }
           }
-        ).build(
-          pending: true,
-          variant: variant,
-          line_item: line_item,
-          order: @order
-        )
+        ).build(inventory_unit_attributes)
       end
     end
   end

@@ -55,7 +55,7 @@ module Spree
       let(:line_item) { create(:line_item) }
       let(:variant) { line_item.variant }
       let(:order) { line_item.order }
-      let(:shipment) { create(:shipment) }
+      let(:shipment) { create(:shipment, order: order) }
 
       it "assigns variant, order and line_item" do
         unit = shipment.set_up_inventory('on_hand', variant, order, line_item)
