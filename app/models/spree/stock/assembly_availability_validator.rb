@@ -1,8 +1,10 @@
 module Spree
   module Stock
-    # Overridden from spree core to make it also check for assembly parts stock
-    class AvailabilityValidator < ActiveModel::Validator
+    module AssemblyAvailabilityValidator
       def validate(line_item)
+
+        return super unless line_item.product.assembly?
+
         line_item.quantity_by_variant.each do |variant, variant_quantity|
           inventory_units = line_item.inventory_units.where(variant: variant).count
           quantity = variant_quantity - inventory_units
@@ -11,7 +13,6 @@ module Spree
           next unless variant
 
           quantifier = Stock::Quantifier.new(variant)
-
           unless quantifier.can_supply? quantity
             display_name = %Q{#{variant.name}}
             display_name += %Q{ (#{variant.options_text})} unless variant.options_text.blank?
