@@ -1,4 +1,4 @@
-module SolidusProductAssembly
+module SolidusFlexiProductKits
   class Engine < Rails::Engine
     engine_name 'solidus_product_assembly'
 
