@@ -12,6 +12,7 @@ else
   gem "rails", "~> 4.2.7"
 end
 
+gem 'deface', '~> 1.3'
 gem 'pg', '~> 0.21'
 gem 'mysql2'
 

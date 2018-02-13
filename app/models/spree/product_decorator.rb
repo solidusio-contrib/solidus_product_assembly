@@ -1,5 +1,5 @@
 Spree::Product.class_eval do
-  has_and_belongs_to_many  :parts, :class_name => "Spree::Variant",
+  has_and_belongs_to_many  :parts, :class_name => "Spree::Product",
         :join_table => "spree_assemblies_parts",
         :foreign_key => "assembly_id", :association_foreign_key => "part_id"
 
@@ -16,16 +16,28 @@ Spree::Product.class_eval do
 
   validate :assembly_cannot_be_part, :if => :assembly?
 
-  def add_part(variant, count = 1)
-    set_part_count(variant, count_of(variant) + count)
+  has_and_belongs_to_many  :assemblies, :class_name => "Spree::Product",
+        :join_table => "spree_assemblies_parts",
+        :foreign_key => "part_id", :association_foreign_key => "assembly_id"
+
+  def assemblies_for(products)
+    assemblies.where(id: products)
   end
 
-  def remove_part(variant)
-    set_part_count(variant, 0)
+  def part?
+    assemblies.exists?
   end
 
-  def set_part_count(variant, count)
-    ap = assemblies_part(variant)
+  def add_part(product, count = 1)
+    set_part_count(product, count_of(product) + count)
+  end
+
+  def remove_part(product)
+    set_part_count(product, 0)
+  end
+
+  def set_part_count(product, count)
+    ap = assemblies_part(product)
     if count > 0
       ap.count = count
       ap.save
@@ -39,8 +51,8 @@ Spree::Product.class_eval do
     parts.present?
   end
 
-  def count_of(variant)
-    ap = assemblies_part(variant)
+  def count_of(product)
+    ap = assemblies_part(product)
     # This checks persisted because the default count is 1
     ap.persisted? ? ap.count : 0
   end
@@ -50,7 +62,7 @@ Spree::Product.class_eval do
   end
 
   private
-  def assemblies_part(variant)
-    Spree::AssembliesPart.get(self.id, variant.id)
+  def assemblies_part(product)
+    Spree::AssembliesPart.get(self.id, product.id)
   end
 end
