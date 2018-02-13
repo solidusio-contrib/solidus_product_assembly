@@ -1,6 +1,6 @@
-# Product Assembly
+# Flexi Product Kit
 
-[![Build Status](https://travis-ci.org/solidusio-contrib/solidus_product_assembly.svg?branch=master)](https://travis-ci.org/solidusio-contrib/solidus_product_assembly)
+[![Build Status](https://travis-ci.org/madetech/solidus_product_assembly.svg?branch=master)](https://travis-ci.org/madetech/solidus_product_assembly)
 
 Create a product which is composed of other products.
 
