@@ -7,7 +7,7 @@ require 'solidus_flexi_product_kits/version'
 
 Gem::Specification.new do |s|
   s.platform    = Gem::Platform::RUBY
-  s.name        = 'solidus_product_assembly'
+  s.name        = 'solidus_flexi_product_kits'
   s.version     = SolidusFlexiProductKits::VERSION
   s.summary     = 'Adds opportunity to make flexible product bundles to your Spree store'
   s.description = s.summary

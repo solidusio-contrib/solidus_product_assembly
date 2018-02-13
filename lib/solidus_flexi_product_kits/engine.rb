@@ -1,6 +1,6 @@
 module SolidusFlexiProductKits
   class Engine < Rails::Engine
-    engine_name 'solidus_product_assembly'
+    engine_name 'solidus_flexi_product_kits'
 
     config.autoload_paths += %W(#{config.root}/lib)
 
