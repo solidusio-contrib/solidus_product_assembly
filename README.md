@@ -8,14 +8,14 @@ Create a product which is composed of other products.
 
 Add the following line to your `Gemfile`
 ```ruby
-gem 'solidus_product_assembly', github: 'solidusio-contrib/solidus_product_assembly', branch: 'master'
+gem 'solidus_product_assembly', github: 'madetech/solidus_flexi_product_kits', branch: 'master'
 ```
 
 Run bundle install as well as the extension intall command to copy and run migrations and
-append solidus_product_assembly to your js manifest file
+append solidus_flexi_product_kits to your js manifest file
 
     bundle install
-    rails g solidus_product_assembly:install
+    rails g solidus_flexi_product_kits:install
 
 ## Use
 
