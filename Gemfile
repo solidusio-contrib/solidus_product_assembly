@@ -3,6 +3,7 @@ source "https://rubygems.org"
 branch = ENV.fetch('SOLIDUS_BRANCH', 'master')
 gem "solidus", github: "solidusio/solidus", branch: branch
 gem 'solidus_auth_devise'
+gem 'deface'
 
 if branch == 'master' || branch >= "v2.3"
   gem 'rails', '~> 5.1.0' # hack for broken bundler dependency resolution
