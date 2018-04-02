@@ -5,10 +5,16 @@ module Spree
     let!(:order) { create(:order_with_line_items) }
     let(:line_item) { order.line_items.first }
     let(:product) { line_item.product }
+    let(:shipment) { create(:shipment, order: order) }
 
-    subject { InventoryUnit.create(line_item: line_item, variant: line_item.variant, order: order) }
+    if SolidusSupport.solidus_gem_version < Gem::Version.new('2.5.x')
+      let(:attributes) { { shipment: shipment, line_item: line_item, variant: line_item.variant, order: order } }
+    else
+      let(:attributes) { { shipment: shipment, line_item: line_item, variant: line_item.variant } }
+    end
+    subject { InventoryUnit.create!(attributes) }
 
-    context 'if the unit is not part of an assembly' do      
+    context 'if the unit is not part of an assembly' do
       it 'it will return the percentage of a line item' do
         expect(subject.percentage_of_line_item).to eql(BigDecimal.new(1))
       end
