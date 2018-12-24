@@ -46,7 +46,7 @@ Spree::Product.class_eval do
   end
 
   def assembly_cannot_be_part
-    errors.add(:can_be_part, Spree.t(:assembly_cannot_be_part)) if can_be_part
+    errors.add(:can_be_part, I18n.t('spree.assembly_cannot_be_part')) if can_be_part
   end
 
   private
