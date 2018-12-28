@@ -1,10 +1,10 @@
 <table class="index">
   <thead>
   	<tr>
-  	  <th><%= Spree.t(:sku) %></th>
-  		<th><%= Spree.t(:name) %></th>
-  		<th><%= Spree.t(:options) %></th>
-  		<th><%= Spree.t(:qty) %></th>
+  	  <th><%= I18n.t('spree.sku') %></th>
+  		<th><%= I18n.t('spree.name') %></th>
+  		<th><%= I18n.t('spree.options') %></th>
+  		<th><%= I18n.t('spree.qty') %></th>
   	</tr>
   </thead>
   <tbody>
@@ -17,20 +17,20 @@
   	    <td class="actions">
           <%= link_to_with_icon(
             'edit',
-            Spree.t('actions.edit'),
+            I18n.t('spree.actions.edit'),
             set_count_admin_product_part_url(@product, part),
             :class => "set_count_admin_product_part_link save-line-item") %>
 
           <%= link_to_with_icon(
             'delete',
-            Spree.t('actions.delete'),
+            I18n.t('spree.actions.delete'),
             remove_admin_product_part_url(@product, part),
             class: "remove_admin_product_part_link delete-line-item") %>
   	    </td>
       </tr>
     <% end %>
     <% if parts.empty? %>
-     <tr><td colspan="5"><%= Spree.t(:none) %>.</td></tr>
+     <tr><td colspan="5"><%= I18n.t('spree.none') %>.</td></tr>
     <% end %>
   </tbody>
 </table>

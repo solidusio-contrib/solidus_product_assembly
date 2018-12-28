@@ -3,8 +3,8 @@ Spree::Stock::InventoryValidator.class_eval do
     total_quantity = line_item.quantity_by_variant.values.sum
 
     if line_item.inventory_units.count != total_quantity
-      line_item.errors[:inventory] << Spree.t(
-        :inventory_not_available,
+      line_item.errors[:inventory] << I18n.t(
+        'spree.inventory_not_available',
         item: line_item.variant.name
       )
     end

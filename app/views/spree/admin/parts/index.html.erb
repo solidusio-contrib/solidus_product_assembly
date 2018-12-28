@@ -7,7 +7,7 @@
 </div>
 
 <%= form_tag('#') do %>
-  <label><%= Spree.t(:search) %>:</label>
+  <label><%= I18n.t('spree.search') %>:</label>
   <input id="searchtext" size="25">
   <button id="search_parts_button" class="fa fa-search button" name="button">Search</button>
 <% end %>
