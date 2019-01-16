@@ -1,7 +1,7 @@
 module Spree
   module Stock
     # Overridden from spree core to make it also check for assembly parts stock
-    class AvailabilityValidator < ActiveModel::Validator
+    module AvailabilityValidatorDecorator
       def validate(line_item)
         line_item.quantity_by_variant.each do |variant, variant_quantity|
           inventory_units = line_item.inventory_units.where(variant: variant).count
@@ -23,6 +23,8 @@ module Spree
           end
         end
       end
+
+      Spree::Stock::AvailabilityValidator.prepend self
     end
   end
 end
