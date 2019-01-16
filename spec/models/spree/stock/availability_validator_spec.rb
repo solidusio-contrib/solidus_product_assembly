@@ -9,22 +9,8 @@ module Spree
 
         subject { described_class.new }
 
-        it 'should be valid when supply is sufficient' do
-          allow_any_instance_of(Stock::Quantifier).to receive(:can_supply?).and_return(true)
-          expect(line_item).not_to receive(:errors)
-          subject.validate(line_item)
-        end
-
-        it 'should be invalid when supply is insufficent' do
-          allow_any_instance_of(Stock::Quantifier).to receive(:can_supply?).and_return(false)
-          expect(line_item.errors).to receive(:[]).exactly(1).times.with(:quantity).and_return([])
-          subject.validate(line_item)
-        end
-
-        it 'should consider existing inventory_units sufficient' do
-          allow_any_instance_of(Stock::Quantifier).to receive(:can_supply?).and_return(false)
-          allow(line_item.inventory_units).to receive(:where).and_return([double] * 5)
-          expect(line_item).not_to receive(:errors)
+        it 'delegates to the original Solidus implementation' do
+          expect(subject).to receive(:is_valid?).with(line_item)
           subject.validate(line_item)
         end
       end
