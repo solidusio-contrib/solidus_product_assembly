@@ -1,2 +1,8 @@
 <!-- replace_contents  '.stock-contents tbody' -->
-<%= render 'stock_contents', shipment: shipment %>
+<% if Spree.solidus_gem_version < Gem::Version.new('2.4') %>
+  <%= render "stock_contents_2_3", shipment: shipment %>
+<% elsif Spree.solidus_gem_version < Gem::Version.new('2.5') %>
+  <%= render "stock_contents_2_4", shipment: shipment %>
+<% else %>
+  <%= render "stock_contents", shipment: shipment %>
+<% end %>
