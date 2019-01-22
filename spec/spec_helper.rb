@@ -11,11 +11,19 @@ require 'database_cleaner'
 
 require 'capybara/rspec'
 require 'capybara/rails'
-require 'capybara/poltergeist'
-Capybara.register_driver(:poltergeist) do |app|
-  Capybara::Poltergeist::Driver.new app, timeout: 90
+
+require 'selenium/webdriver'
+
+Capybara.register_driver :selenium_chrome_headless do |app|
+  browser_options = ::Selenium::WebDriver::Chrome::Options.new
+  browser_options.args << '--headless'
+  browser_options.args << '--disable-gpu'
+  browser_options.args << '--window-size=1440,1080'
+  Capybara::Selenium::Driver.new(app, browser: :chrome, options: browser_options)
 end
-Capybara.javascript_driver = :poltergeist
+
+Capybara.javascript_driver = (ENV['CAPYBARA_DRIVER'] || :selenium_chrome_headless).to_sym
+
 Capybara.default_max_wait_time = 10
 
 Dir[File.join(File.dirname(__FILE__), "support/**/*.rb")].each {|f| require f }
