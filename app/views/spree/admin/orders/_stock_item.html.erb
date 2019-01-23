@@ -36,7 +36,6 @@
         <% if can? :update, item %>
           <%= button_tag '', :class => 'save-item fa fa-ok no-text with-tip', :data => {'shipment-number' => shipment.number, 'variant-id' => item.variant.id, :action => 'save'}, :title => I18n.t('spree.actions.save'), :style => 'display: none' %>
           <%= link_to '', :class => 'cancel-item fa fa-cancel no-text with-tip', :data => {:action => 'cancel'}, :title => I18n.t('spree.actions.cancel'), :style => 'display: none' %>
-          <%= button_tag '', :class => 'edit-item fa fa-edit no-text with-tip', :data => {:action => 'edit'}, :title => I18n.t('spree.actions.edit') %>
           <%= button_tag '', :class => 'split-item fa fa-arrows-h no-text with-tip', :data => {:action => 'split', 'variant-id' => item.variant.id}, :title => I18n.t('spree.actions.split') %>
           <%= button_tag '', :class => 'delete-item fa fa-trash no-text with-tip', :data => {'shipment-number' => shipment.number, 'variant-id' => item.variant.id, :action => 'remove'}, :title => I18n.t('spree.actions.delete') %>
         <% end %>
