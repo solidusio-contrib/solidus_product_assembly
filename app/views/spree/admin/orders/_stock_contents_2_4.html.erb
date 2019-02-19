@@ -59,12 +59,12 @@
     <% if shipment.tracking.present? %>
       <%= shipment.tracking %>
     <% else %>
-      <i><%= Spree.t(:no_tracking_present) %></i>
+      <i><%= t('spree.no_tracking_present') %></i>
     <% end %>
   </td>
   <td class="actions">
     <% if can? :update, shipment %>
-      <%= button_tag '', class: 'edit-tracking fa fa-edit no-text with-tip', data: {action: 'edit'}, title: Spree.t('actions.edit'), type: :button %>
+      <%= button_tag '', class: 'edit-tracking fa fa-edit no-text with-tip', data: {action: 'edit'}, title: t('spree.actions.edit'), type: :button %>
     <% end %>
   </td>
 </tr>
