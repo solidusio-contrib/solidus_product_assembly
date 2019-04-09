@@ -87,6 +87,57 @@ describe "Checkout", type: :feature do
         end
 
         it_behaves_like 'purchasable assembly'
+
+        context 'when the order can be processed' do
+          include_context "purchases product with part included"
+
+          before do
+            visit spree.admin_orders_path
+            click_on Spree::Order.last.number
+          end
+
+          it 'marks the order as paid and shipped showing proper parts information' do
+            within '#order_tab_summary' do
+              expect(page).to have_selector '#shipment_status', text: 'Pending'
+              expect(page).to have_selector '#payment_status', text: 'Balance due'
+            end
+
+            click_link 'Payments'
+            find('.fa-capture').click
+
+            within '#order_tab_summary' do
+              expect(page).to have_selector '#shipment_status', text: 'Ready'
+              expect(page).to have_selector '#payment_status', text: 'Paid'
+            end
+
+            click_link 'Shipments'
+
+            within '.stock-contents' do
+              expect(page).to have_selector '.item-price', text: '---'
+              expect(page).to have_selector '.item-total', text: '---'
+              expect(page).to have_selector '.item-qty-show', count: 2, text: '1 x on hand'
+            end
+
+            expect(page).not_to have_selector '.stock-contents.carton'
+
+            click_button 'Ship'
+
+            within '.stock-contents' do
+              expect(page).to have_selector '.item-qty-show', count: 2, text: '1 x Shipped'
+            end
+
+            within '.stock-contents.carton' do
+              expect(page).to have_selector '.item-qty-show', count: 2, text: '1 x Shipped'
+              expect(page).to have_selector '.item-price', text: '---'
+              expect(page).to have_selector '.item-total', text: '---'
+            end
+
+            within '#order_tab_summary' do
+              expect(page).to have_selector '#shipment_status', text: 'Shipped'
+              expect(page).to have_selector '#payment_status', text: 'Paid'
+            end
+          end
+        end
       end
     end
   end

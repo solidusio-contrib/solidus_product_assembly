@@ -1,0 +1,9 @@
+<!-- replace ".item-total" -->
+
+<% if item.variant.part? %>
+  <td class="item-total align-center">---</td>
+<% else %>
+  <td class="item-total align-center">
+    <%= line_item_shipment_price(item.line_item, item.quantity) %>
+  </td>
+<% end %>
