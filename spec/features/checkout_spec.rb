@@ -11,13 +11,15 @@ describe "Checkout", type: :feature do
 
   let(:product) { create(:product, :name => "RoR Mug") }
   let(:variant) { create(:variant) }
+  let(:other_variant) { create(:variant) }
 
   stub_authorization!
 
-  before { product.parts << variant << create(:variant) }
+  before { product.parts << variant << other_variant }
 
   shared_context "purchases product with part included" do
     before do
+      visit spree.root_path
       add_product_to_cart
       click_button "Checkout"
 
@@ -41,8 +43,7 @@ describe "Checkout", type: :feature do
     end
   end
 
-  context "backend order shipments UI", js: true do
-
+  shared_examples 'purchasable assembly' do
     context "ordering only the product assembly" do
       include_context "purchases product with part included"
 
@@ -69,7 +70,25 @@ describe "Checkout", type: :feature do
         expect(page).to have_content(variant.product.name)
       end
     end
+  end
 
+  context "backend order shipments UI", js: true do
+    context 'when the product and parts are backorderable' do
+      it_behaves_like 'purchasable assembly'
+    end
+
+    context 'when the product and parts are not backorderable' do
+      context 'when there is enough quantity available' do
+        before do
+          Spree::StockItem.update_all backorderable: false
+          variant.stock_items.each { |stock_item| stock_item.set_count_on_hand 2 }
+          other_variant.stock_items.each { |stock_item| stock_item.set_count_on_hand 1 }
+          product.stock_items.each { |stock_item| stock_item.set_count_on_hand 1 }
+        end
+
+        it_behaves_like 'purchasable assembly'
+      end
+    end
   end
 
 
