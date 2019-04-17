@@ -1,0 +1,9 @@
+<!-- replace ".item-price" -->
+
+<% if item.variant.part? %>
+  <td class="item-price">---</td>
+<% else %>
+  <td class="item-price">
+    <%= line_item_shipment_price(item.line_item, item.quantity) %>
+  </td>
+<% end %>
