@@ -4,7 +4,13 @@ module Spree
   module Calculator::Returns
     class AssembliesDefaultRefundAmount < DefaultRefundAmount
       def compute(return_item)
-        super * return_item.inventory_unit.percentage_of_line_item
+        percentage = return_item.inventory_unit.percentage_of_line_item
+
+        if percentage < 1
+          (super * percentage).round 4, :up
+        else
+          super
+        end
       end
     end
   end
