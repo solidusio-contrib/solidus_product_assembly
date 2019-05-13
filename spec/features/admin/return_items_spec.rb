@@ -3,7 +3,6 @@ require 'spec_helper'
 describe "Return Items", type: :feature, js: true do
   stub_authorization!
 
-  let(:order) { create(:order_with_line_items) }
   let(:line_item) { order.line_items.first }
 
   context 'when the order product is a bundle' do
@@ -23,34 +22,77 @@ describe "Return Items", type: :feature, js: true do
       order.shipments.each(&:ship!)
     end
 
-    it 'successfully generates a RMA, a reimbursement and a refund' do
-      visit spree.edit_admin_order_path(order)
-      expect(page).to have_selector '.line-item-total', text: '$10.00'
-      click_link 'RMA'
-      click_link 'New RMA'
+    context 'with a single item cart' do
+      let(:order) { create(:order_with_line_items) }
 
-      expect(page).to have_selector '.return-item-charged', text: '$3.33', count: 3
-      find('#select-all').click
-      select Spree::StockLocation.first.name, from: 'Stock Location'
+      it 'successfully generates a RMA, a reimbursement and a refund' do
+        visit spree.edit_admin_order_path(order)
 
-      click_button 'Create'
+        expect(page).to have_selector '.line-item-total', text: '$10.00'
 
-      expect(page).to have_content 'Return Authorization has been successfully created!'
-      click_link 'Customer Returns'
-      click_link 'New Customer Return'
-      find('#select-all').click
-      page.execute_script %{$('option[value="receive"]').attr('selected', 'selected')}
-      select Spree::StockLocation.first.name, from: 'Stock Location'
+        click_link 'RMA'
+        click_link 'New RMA'
 
-      click_button 'Create'
+        expect(page).to have_selector '.return-item-charged', text: '$3.33', count: 3
 
-      expect(page).to have_content 'Customer Return has been successfully created!'
-      click_button 'Create reimbursement'
+        find('#select-all').click
+        select Spree::StockLocation.first.name, from: 'Stock Location'
+        click_button 'Create'
 
-      click_button 'Reimburse'
+        expect(page).to have_content 'Return Authorization has been successfully created!'
 
-      within 'table.reimbursement-refunds' do
-        expect(page).to have_content '$10.00'
+        click_link 'Customer Returns'
+        click_link 'New Customer Return'
+        find('#select-all').click
+        page.execute_script %{$('option[value="receive"]').attr('selected', 'selected')}
+        select Spree::StockLocation.first.name, from: 'Stock Location'
+        click_button 'Create'
+
+        expect(page).to have_content 'Customer Return has been successfully created!'
+
+        click_button 'Create reimbursement'
+        click_button 'Reimburse'
+
+        within 'table.reimbursement-refunds' do
+          expect(page).to have_content '$10.00'
+        end
+      end
+    end
+
+    context 'with a multiple items cart' do
+      let(:order) { create(:order_with_line_items, line_items_attributes: [{ quantity: 2 }]) }
+
+      it 'successfully generates a RMA, a reimbursement and a refund' do
+        visit spree.edit_admin_order_path(order)
+
+        expect(page).to have_selector '.line-item-total', text: '$20.00'
+
+        click_link 'RMA'
+        click_link 'New RMA'
+
+        expect(page).to have_selector '.return-item-charged', text: '$3.33', count: 6
+
+        find('#select-all').click
+        select Spree::StockLocation.first.name, from: 'Stock Location'
+        click_button 'Create'
+
+        expect(page).to have_content 'Return Authorization has been successfully created!'
+
+        click_link 'Customer Returns'
+        click_link 'New Customer Return'
+        find('#select-all').click
+        page.execute_script %{$('option[value="receive"]').attr('selected', 'selected')}
+        select Spree::StockLocation.first.name, from: 'Stock Location'
+        click_button 'Create'
+
+        expect(page).to have_content 'Customer Return has been successfully created!'
+
+        click_button 'Create reimbursement'
+        click_button 'Reimburse'
+
+        within 'table.reimbursement-refunds' do
+          expect(page).to have_content '$20.00'
+        end
       end
     end
   end
@@ -63,12 +105,40 @@ describe "Return Items", type: :feature, js: true do
       order.shipments.update_all state: :shipped
     end
 
-    it 'builds one return item for each product' do
-      visit spree.edit_admin_order_path(order)
-      expect(page).to have_selector '.item-total', text: '$10.00'
-      click_link 'RMA'
-      click_link 'New RMA'
-      expect(page).to have_selector '.return-item-pre-tax-refund-amount', text: '$10.00', count: 1
+    context 'with a single item cart' do
+      let(:order) { create(:order_with_line_items) }
+
+      it 'builds one return item for each product' do
+        visit spree.edit_admin_order_path(order)
+
+        expect(page).to have_selector '.item-total', text: '$10.00'
+
+        click_link 'RMA'
+        click_link 'New RMA'
+
+        within '.return-items-table tbody' do
+          expect(page).to have_selector 'tr', count: 1
+          expect(page).to have_selector '.return-item-pre-tax-refund-amount', text: '$10.00', count: 1
+        end
+      end
+    end
+
+    context 'with a multiple items cart' do
+      let(:order) { create(:order_with_line_items, line_items_attributes: [{ quantity: 2 }]) }
+
+      it 'builds one return item for each product' do
+        visit spree.edit_admin_order_path(order)
+
+        expect(page).to have_selector '.item-total', text: '$20.00'
+
+        click_link 'RMA'
+        click_link 'New RMA'
+
+        within '.return-items-table tbody' do
+          expect(page).to have_selector 'tr', count: 2
+          expect(page).to have_selector '.return-item-pre-tax-refund-amount', text: '$10.00', count: 2
+        end
+      end
     end
   end
 end
