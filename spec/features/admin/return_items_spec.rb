@@ -12,6 +12,7 @@ describe "Return Items", type: :feature, js: true do
     before do
       create :refund_reason, name: Spree::RefundReason::RETURN_PROCESSING_REASON, mutable: false
       bundle.parts << [parts]
+      bundle.set_part_count(parts.first, 2)
       parts.each { |p| p.stock_items.first.set_count_on_hand 4 }
       3.times { order.next }
       create :payment, order: order, amount: order.amount
@@ -33,7 +34,7 @@ describe "Return Items", type: :feature, js: true do
         click_link 'RMA'
         click_link 'New RMA'
 
-        expect(page).to have_selector '.return-item-charged', text: '$3.33', count: 3
+        expect(page).to have_selector '.return-item-charged', text: '$2.50', count: 4
 
         find('#select-all').click
         select Spree::StockLocation.first.name, from: 'Stock Location'
@@ -70,7 +71,7 @@ describe "Return Items", type: :feature, js: true do
         click_link 'RMA'
         click_link 'New RMA'
 
-        expect(page).to have_selector '.return-item-charged', text: '$3.33', count: 6
+        expect(page).to have_selector '.return-item-charged', text: '$2.50', count: 8
 
         find('#select-all').click
         select Spree::StockLocation.first.name, from: 'Stock Location'
