@@ -32,7 +32,7 @@
       <% end %>
     </td>
     <td class="cart-item-delete actions" data-hook="cart_item_delete">
-      <% if !shipment.shipped? && !item.part %>
+      <% if !shipment.shipped? %>
         <% if can? :update, item %>
           <%= button_tag '', :class => 'save-item fa fa-ok no-text with-tip', :data => {'shipment-number' => shipment.number, 'variant-id' => item.variant.id, :action => 'save'}, :title => I18n.t('spree.actions.save'), :style => 'display: none' %>
           <%= link_to '', :class => 'cancel-item fa fa-cancel no-text with-tip', :data => {:action => 'cancel'}, :title => I18n.t('spree.actions.cancel'), :style => 'display: none' %>
