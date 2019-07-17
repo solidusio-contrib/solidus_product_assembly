@@ -2,9 +2,11 @@
   <tr class="stock-item" data-item-quantity="<%= item.quantity %>" data-variant-id="<%= item.variant.id %>">
     <td class="item-image"><%= image_tag item.variant.display_image.attachment(:mini) %></td>
     <td class="item-name">
-      <%= item.variant.product.name %><br><%= "(" + variant_options(item.variant) + ")" unless item.variant.option_values.empty? %>
+      <%= link_to item.variant.product.name, edit_admin_product_path(item.variant.product) %><br><%= "(" + variant_options(item.variant) + ")" unless item.variant.option_values.empty? %>
       <% if item.part && item.line_item %>
         <i><%= I18n.t('spree.part_of_bundle', sku: item.product.sku) %></i>
+      <% elsif item.variant.sku.present? %>
+        <strong><%= Spree::Variant.human_attribute_name(:sku) %>:</strong> <%= item.variant.sku %>
       <% end %>
     </td>
     <td class="item-price align-center">
