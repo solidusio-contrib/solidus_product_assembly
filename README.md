@@ -1,6 +1,7 @@
 # Product Assembly
 
-[![Build Status](https://travis-ci.org/solidusio-contrib/solidus_product_assembly.svg?branch=master)](https://travis-ci.org/solidusio-contrib/solidus_product_assembly)
+[![Travis](https://travis-ci.org/solidusio-contrib/solidus_product_assembly.svg?branch=master)](https://travis-ci.org/solidusio-contrib/solidus_product_assembly)
+[![CircleCI](https://circleci.com/gh/solidusio-contrib/solidus_product_assembly.svg?style=svg)](https://circleci.com/gh/solidusio-contrib/solidus_product_assembly)
 
 Create a product which is composed of other products.
 
