@@ -5,6 +5,11 @@ rvm:
   - 2.4.3
 addons:
   chrome: stable
+  apt:
+    packages:
+      - chromium-chromedriver
+before_install:
+  - ln -s /usr/lib/chromium-browser/chromedriver ~/bin/chromedriver
 before_script:
   - export DISPLAY=:99.0
   - sh -e /etc/init.d/xvfb start
