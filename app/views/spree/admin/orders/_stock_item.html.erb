@@ -1,46 +1,39 @@
-<% shipment.manifest.each do |item| %>
-  <tr class="stock-item" data-item-quantity="<%= item.quantity %>" data-variant-id="<%= item.variant.id %>">
-    <td class="item-image"><%= image_tag item.variant.display_image.attachment(:mini) %></td>
+<% shipment_manifest.each do |item| %>
+  <tr class="stock-item"
+      data-item-quantity="<%= item.quantity %>"
+      data-variant-id="<%= item.variant.id %>"
+      >
+    <td class="item-image align-center">
+      <%= render 'spree/admin/shared/image',
+        image: (item.variant.gallery.images.first || item.variant.product.gallery.images.first),
+        size: :mini %>
+    </td>
     <td class="item-name">
       <%= link_to item.variant.product.name, edit_admin_product_path(item.variant.product) %><br><%= "(" + variant_options(item.variant) + ")" unless item.variant.option_values.empty? %>
-      <% if item.part && item.line_item %>
+      <% if item.line_item.variant.part? %>
         <i><%= I18n.t('spree.part_of_bundle', sku: item.product.sku) %></i>
       <% elsif item.variant.sku.present? %>
         <strong><%= Spree::Variant.human_attribute_name(:sku) %>:</strong> <%= item.variant.sku %>
       <% end %>
     </td>
-    <td class="item-price align-center">
-      <% if item.part %>
+    <td class="item-price">
+      <% if item.line_item.variant.part? %>
         ---
       <% else %>
         <%= item.line_item.single_money.to_html if item.line_item %>
       <% end %>
     </td>
-    <td class="item-qty-show align-center">
-        <% item.states.each do |state,count| %>
-          <%= count %> x <%= state.humanize.downcase %>
-        <% end %>
-    </td>
-    <% unless shipment.shipped? %>
-      <td class="item-qty-edit hidden">
-        <%= number_field_tag :quantity, item.quantity, :min => 0, :class => "line_item_quantity", :size => 5 %>
-      </td>
-    <% end %>
-    <td class="item-total align-center">
-      <% if item.part %>
-        ---
-      <% else %>
-        <%= line_item_shipment_price(item.line_item, item.quantity) if item.line_item %>
+    <td class="item-qty-show">
+      <% item.states.each do |state,count| %>
+        <%= count %> x <%= t(state, scope: 'spree.inventory_states') %>
       <% end %>
     </td>
+    <td class="item-total"><%= line_item_shipment_price(item.line_item, item.quantity) %></td>
+
     <td class="cart-item-delete actions" data-hook="cart_item_delete">
-      <% if !shipment.shipped? %>
-        <% if can? :update, item %>
-          <%= button_tag '', :class => 'save-item fa fa-ok no-text with-tip', :data => {'shipment-number' => shipment.number, 'variant-id' => item.variant.id, :action => 'save'}, :title => I18n.t('spree.actions.save'), :style => 'display: none' %>
-          <%= link_to '', :class => 'cancel-item fa fa-cancel no-text with-tip', :data => {:action => 'cancel'}, :title => I18n.t('spree.actions.cancel'), :style => 'display: none' %>
-          <%= button_tag '', :class => 'split-item fa fa-arrows-h no-text with-tip', :data => {:action => 'split', 'variant-id' => item.variant.id}, :title => I18n.t('spree.actions.split') %>
-          <%= button_tag '', :class => 'delete-item fa fa-trash no-text with-tip', :data => {'shipment-number' => shipment.number, 'variant-id' => item.variant.id, :action => 'remove'}, :title => I18n.t('spree.actions.delete') %>
-        <% end %>
+      <% if can? :update, item %>
+        <%= button_tag '', class: 'split-item icon_link fa fa-arrows-h no-text with-tip', data: { action: 'edit', 'variant-id' => item.variant.id }, title: t('spree.actions.split'), type: :button %>
+        <%= button_tag '', class: 'delete-item fa fa-trash no-text with-tip', data: { action: 'remove', 'variant-id' => item.variant.id }, title: t('spree.actions.delete'), type: :button %>
       <% end %>
     </td>
   </tr>
