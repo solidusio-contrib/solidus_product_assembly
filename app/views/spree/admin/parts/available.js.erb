@@ -5,13 +5,13 @@
     else row.style.display = '';
   }
 </script>
-<h4><%= I18n.t('spree.available_parts') %></h4>
+<h4><%= t('spree.available_parts') %></h4>
 <table class="index">
 	<thead>
 		<tr>
-  		<th><%= I18n.t('spree.name') %></th>
-  		<th><%= I18n.t('spree.options') %></th>
-  		<th><%= I18n.t('spree.qty') %></th>
+  		<th><%= t('spree.name') %></th>
+  		<th><%= t('spree.options') %></th>
+  		<th><%= t('spree.qty') %></th>
   		<th></th>
 		</tr>
 	</thead>
@@ -26,19 +26,19 @@
                 options_for_select(product.variants.map { |v| [variant_options(v), v.id] }) %>
           <% else %>
             <%= hidden_field_tag "part[id]", product.master.id %>
-            <%= I18n.t('spree.no_variants') %>
+            <%= t('spree.no_variants') %>
           <% end %>
         </td>
         <td><%= text_field_tag "part[count]", 1 %></td>
 		    <td class="actions">
-		      <%= link_to(icon('add') + ' ' + I18n.t('spree.select'),
+		      <%= link_to(icon('add') + ' ' + t('spree.select'),
 		                  admin_product_parts_path(@product),
 		                  :class => "add_product_part_link") %>
 		    </td>
       </tr>
     <% end %>
     <% if @available_products.empty? %>
-     <tr><td colspan="3"><%= I18n.t('spree.no_match_found') %>.</td></tr>
+     <tr><td colspan="3"><%= t('spree.no_match_found') %>.</td></tr>
     <% end %>
   </tbody>
 </table>

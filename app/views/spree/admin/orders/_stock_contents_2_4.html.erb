@@ -4,7 +4,7 @@
   <tr class="edit-method hidden total">
     <td colspan="5">
       <div class="field alpha five columns">
-        <%= label_tag 'selected_shipping_rate_id', I18n.t('spree.shipping_method') %>
+        <%= label_tag 'selected_shipping_rate_id', t('spree.shipping_method') %>
         <%= select_tag :selected_shipping_rate_id,
               options_for_select(shipment.shipping_rates.map {|sr| ["#{sr.name} #{sr.display_price}", sr.id] }, shipment.selected_shipping_rate_id),
               {:class => 'select2 fullwidth', :data => {'shipment-number' => shipment.number } } %>
@@ -13,9 +13,9 @@
     <td class="actions">
       <% if can? :update, shipment %>
         <%= button_tag '', :class => 'save-method fa fa-ok no-text with-tip',
-          :data => {'shipment-number' => shipment.number, :action => 'save'}, title: I18n.t('spree.actions.save') %>
+          :data => {'shipment-number' => shipment.number, :action => 'save'}, title: t('spree.actions.save') %>
         <%= button_tag '', :class => 'cancel-method fa fa-cancel no-text with-tip',
-          :data => {:action => 'cancel'}, :title => I18n.t('spree.actions.cancel') %>
+          :data => {:action => 'cancel'}, :title => t('spree.actions.cancel') %>
       <% end %>
     </td>
   </tr>
@@ -30,25 +30,25 @@
       <span><%= shipment.display_cost %></span>
     </td>
   <% else %>
-    <td colspan='5'><%= I18n.t('spree.no_shipping_method_selected') %></td>
+    <td colspan='5'><%= t('spree.no_shipping_method_selected') %></td>
   <% end %>
 
   <td class="actions">
     <% if can? :update, shipment %>
-      <%= button_tag '', :class => 'edit-method fa fa-edit no-text with-tip', :data => {:action => 'edit'}, :title => I18n.t('spree.actions.edit') %>
+      <%= button_tag '', :class => 'edit-method fa fa-edit no-text with-tip', :data => {:action => 'edit'}, :title => t('spree.actions.edit') %>
     <% end %>
   </td>
 </tr>
 
 <tr class="edit-tracking hidden total">
   <td colspan="5">
-    <label><%= I18n.t('spree.tracking_number') %>:</label>
+    <label><%= t('spree.tracking_number') %>:</label>
     <%= text_field_tag :tracking, shipment.tracking %>
   </td>
   <td class="actions">
     <% if can? :update, shipment %>
-      <%= button_tag '', :class => 'save-tracking fa fa-ok no-text with-tip', :data => {'shipment-number' => shipment.number, :action => 'save'}, :title => I18n.t('spree.actions.save') %>
-      <%= button_tag '', :class => 'cancel-tracking fa fa-cancel no-text with-tip', :data => {:action => 'cancel'}, :title => I18n.t('spree.actions.cancel') %>
+      <%= button_tag '', :class => 'save-tracking fa fa-ok no-text with-tip', :data => {'shipment-number' => shipment.number, :action => 'save'}, :title => t('spree.actions.save') %>
+      <%= button_tag '', :class => 'cancel-tracking fa fa-cancel no-text with-tip', :data => {:action => 'cancel'}, :title => t('spree.actions.cancel') %>
     <% end %>
   </td>
 </tr>
