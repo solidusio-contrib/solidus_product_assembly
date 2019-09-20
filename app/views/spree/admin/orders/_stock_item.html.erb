@@ -4,7 +4,7 @@
     <td class="item-name">
       <%= link_to item.variant.product.name, edit_admin_product_path(item.variant.product) %><br><%= "(" + variant_options(item.variant) + ")" unless item.variant.option_values.empty? %>
       <% if item.part && item.line_item %>
-        <i><%= I18n.t('spree.part_of_bundle', sku: item.product.sku) %></i>
+        <i><%= t('spree.part_of_bundle', sku: item.product.sku) %></i>
       <% elsif item.variant.sku.present? %>
         <strong><%= Spree::Variant.human_attribute_name(:sku) %>:</strong> <%= item.variant.sku %>
       <% end %>
@@ -36,10 +36,10 @@
     <td class="cart-item-delete actions" data-hook="cart_item_delete">
       <% if !shipment.shipped? %>
         <% if can? :update, item %>
-          <%= button_tag '', :class => 'save-item fa fa-ok no-text with-tip', :data => {'shipment-number' => shipment.number, 'variant-id' => item.variant.id, :action => 'save'}, :title => I18n.t('spree.actions.save'), :style => 'display: none' %>
-          <%= link_to '', :class => 'cancel-item fa fa-cancel no-text with-tip', :data => {:action => 'cancel'}, :title => I18n.t('spree.actions.cancel'), :style => 'display: none' %>
-          <%= button_tag '', :class => 'split-item fa fa-arrows-h no-text with-tip', :data => {:action => 'split', 'variant-id' => item.variant.id}, :title => I18n.t('spree.actions.split') %>
-          <%= button_tag '', :class => 'delete-item fa fa-trash no-text with-tip', :data => {'shipment-number' => shipment.number, 'variant-id' => item.variant.id, :action => 'remove'}, :title => I18n.t('spree.actions.delete') %>
+          <%= button_tag '', :class => 'save-item fa fa-ok no-text with-tip', :data => {'shipment-number' => shipment.number, 'variant-id' => item.variant.id, :action => 'save'}, :title => t('spree.actions.save'), :style => 'display: none' %>
+          <%= link_to '', :class => 'cancel-item fa fa-cancel no-text with-tip', :data => {:action => 'cancel'}, :title => t('spree.actions.cancel'), :style => 'display: none' %>
+          <%= button_tag '', :class => 'split-item fa fa-arrows-h no-text with-tip', :data => {:action => 'split', 'variant-id' => item.variant.id}, :title => t('spree.actions.split') %>
+          <%= button_tag '', :class => 'delete-item fa fa-trash no-text with-tip', :data => {'shipment-number' => shipment.number, 'variant-id' => item.variant.id, :action => 'remove'}, :title => t('spree.actions.delete') %>
         <% end %>
       <% end %>
     </td>
