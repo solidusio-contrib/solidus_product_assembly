@@ -5,6 +5,10 @@ describe "Return Items", type: :feature, js: true do
 
   let(:line_item) { order.line_items.first }
 
+  before do
+    allow_any_instance_of(Spree::Admin::ReimbursementsController).to receive(:try_spree_current_user) { Spree.user_class.new }
+  end
+
   context 'when the order product is a bundle' do
     let(:bundle) { line_item.product }
     let(:parts) { (1..3).map { create(:variant) } }
