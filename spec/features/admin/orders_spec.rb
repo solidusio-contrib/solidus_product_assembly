@@ -16,18 +16,6 @@ describe "Orders", type: :feature, js: true do
       order.finalize!
     end
 
-    it "allows admin to edit product bundle" do
-      visit spree.edit_admin_order_path(order)
-
-      within("table.product-bundles") do
-        find(".edit-line-item").click
-        fill_in "quantity", :with => "2"
-        find(".save-line-item").click
-
-        sleep(1) # avoid odd "cannot rollback - no transaction is active: rollback transaction"
-      end
-    end
-
     if Spree.solidus_gem_version < Gem::Version.new('2.5')
       context 'Adding tracking number' do
         let(:tracking_number) { 'AA123' }

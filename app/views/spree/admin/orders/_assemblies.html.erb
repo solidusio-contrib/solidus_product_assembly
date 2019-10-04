@@ -7,9 +7,10 @@
 
   <table class="product-bundles index" data-hook="line-items">
     <colgroup>
-      <col style="width: 10%;" />
-      <col style="width: 20%;" />
-      <col style="width: 20%;" />
+      <col style="width: 15%;" />
+      <col style="width: 40%;" />
+      <col style="width: 15%;" />
+      <col style="width: 15%;" />
       <col style="width: 15%;" />
     </colgroup>
 
@@ -19,7 +20,6 @@
         <th><%= Spree::LineItem.human_attribute_name(:price) %></th>
         <th><%= Spree::LineItem.human_attribute_name(:quantity) %></th>
         <th><%= Spree::LineItem.human_attribute_name(:total) %></th>
-        <th class="orders-actions actions" data-hook="admin_order_form_line_items_header_actions">&nbsp;</th>
       </tr>
     </thead>
 
@@ -37,18 +37,7 @@
           <td class="line-item-qty-show align-center">
             <%= item.quantity %>
           </td>
-          <td class="line-item-qty-edit">
-            <%= number_field_tag :quantity, item.quantity, :min => 0, :class => "line_item_quantity", :size => 5 %>
-          </td>
           <td class="line-item-total align-center"><%= line_item_shipment_price(item, item.quantity) %></td>
-          <td class="cart-line-item-delete actions" data-hook="cart_line_item_delete">
-            <% if can? :update, item %>
-              <%= link_to '', '#', :class => 'save-line-item fa fa-ok no-text with-tip',       :title => t('spree.actions.save') %>
-              <%= link_to '', '#', :class => 'cancel-line-item fa fa-cancel no-text with-tip', :title => t('spree.actions.cancel') %>
-              <%= link_to '', '#', :class => 'edit-line-item fa fa-edit no-text with-tip',     :title => t('spree.actions.edit') %>
-              <%= link_to '', '#', :class => 'delete-line-item fa fa-trash no-text with-tip',  :title => t('spree.actions.delete') %>
-            <% end %>
-          </td>
         <% end %>
       <% end %>
     </tbody>
