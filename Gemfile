@@ -14,9 +14,9 @@ else
 end
 
 if branch < 'v2.5'
-  gem 'factory_bot', '5.1.0'
+  gem 'factory_bot', '5.1.1'
 else
-  gem 'factory_bot', '5.1.0'
+  gem 'factory_bot', '5.1.1'
 end
 
 if ENV['DB'] == 'mysql'
