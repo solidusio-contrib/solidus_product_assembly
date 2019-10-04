@@ -28,7 +28,7 @@ Gem::Specification.new do |s|
   s.add_development_dependency 'sqlite3', '~> 1.3.6'
   s.add_development_dependency 'ffaker'
   s.add_development_dependency 'capybara', '~> 3.19'
-  s.add_development_dependency 'puma', '~> 3.12'
+  s.add_development_dependency 'puma', '~> 4.2'
   s.add_development_dependency 'database_cleaner', '~> 1.3'
   s.add_development_dependency 'simplecov'
   s.add_development_dependency "github_changelog_generator", "~> 1.14"
