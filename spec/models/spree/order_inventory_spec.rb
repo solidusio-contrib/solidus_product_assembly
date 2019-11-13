@@ -1,11 +1,13 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 
 module Spree
   describe OrderInventory do
+    subject { described_class.new(order, order.line_items.first) }
+
     let!(:store) { create :store }
     let(:order) { Order.create }
-
-    subject { OrderInventory.new(order, order.line_items.first) }
 
     context "same variant within bundle and as regular product" do
       let(:contents) { OrderContents.new(order) }

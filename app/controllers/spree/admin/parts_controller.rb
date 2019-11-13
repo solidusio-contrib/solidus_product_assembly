@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Spree::Admin::PartsController < Spree::Admin::BaseController
   before_action :find_product
 
@@ -25,8 +27,8 @@ class Spree::Admin::PartsController < Spree::Admin::BaseController
       @available_products = Spree::Product.search_can_be_part(query).distinct
     end
     respond_to do |format|
-      format.html {render :layout => false}
-      format.js {render :layout => false}
+      format.html { render layout: false }
+      format.js { render layout: false }
     end
   end
 
@@ -38,11 +40,12 @@ class Spree::Admin::PartsController < Spree::Admin::BaseController
   end
 
   private
-    def find_product
-      @product = Spree::Product.find_by(slug: params[:product_id])
-    end
 
-    def model_class
-      Spree::AssembliesPart
-    end
+  def find_product
+    @product = Spree::Product.find_by(slug: params[:product_id])
+  end
+
+  def model_class
+    Spree::AssembliesPart
+  end
 end

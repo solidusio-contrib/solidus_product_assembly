@@ -1,15 +1,17 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 
 describe "Checkout", type: :feature do
   let!(:store) { create :store, default: true }
-  let!(:country) { create(:country, :name => "United States", :states_required => true) }
-  let!(:state) { create(:state, :name => "Ohio", :country => country) }
+  let!(:country) { create(:country, name: "United States", states_required: true) }
+  let!(:state) { create(:state, name: "Ohio", country: country) }
   let!(:shipping_method) { create(:shipping_method) }
   let!(:stock_location) { create(:stock_location) }
   let!(:payment_method) { create(:check_payment_method) }
   let!(:zone) { create(:zone) }
 
-  let(:product) { create(:product, :name => "RoR Mug") }
+  let(:product) { create(:product, name: "RoR Mug") }
   let(:variant) { create(:variant) }
   let(:other_variant) { create(:variant) }
 
@@ -23,7 +25,7 @@ describe "Checkout", type: :feature do
       add_product_to_cart
       click_button "Checkout"
 
-      fill_in "order_email", :with => "ryan@spreecommerce.com"
+      fill_in "order_email", with: "ryan@spreecommerce.com"
       click_button "Continue"
       fill_in_address
 
@@ -35,7 +37,7 @@ describe "Checkout", type: :feature do
       expect(current_path).to eql(spree.checkout_state_path("payment"))
 
       click_button "Save and Continue"
-      expect(current_path).to eq spree.checkout_state_path('confirm')
+      expect(page).to have_current_path spree.checkout_state_path('confirm'), ignore_query: true
       expect(page).to have_content(variant.product.name)
 
       click_button "Place Order"
@@ -61,6 +63,7 @@ describe "Checkout", type: :feature do
         click_link variant.product.name
         click_button "add-to-cart-button"
       end
+
       include_context "purchases product with part included"
 
       it "views parts bundled and not" do
@@ -142,16 +145,15 @@ describe "Checkout", type: :feature do
     end
   end
 
-
   def fill_in_address
     address = "order_bill_address_attributes"
-    fill_in "#{address}_firstname", :with => "Ryan"
-    fill_in "#{address}_lastname", :with => "Bigg"
-    fill_in "#{address}_address1", :with => "143 Swan Street"
-    fill_in "#{address}_city", :with => "Richmond"
-    select "Ohio", :from => "#{address}_state_id"
-    fill_in "#{address}_zipcode", :with => "12345"
-    fill_in "#{address}_phone", :with => "(555) 555-5555"
+    fill_in "#{address}_firstname", with: "Ryan"
+    fill_in "#{address}_lastname", with: "Bigg"
+    fill_in "#{address}_address1", with: "143 Swan Street"
+    fill_in "#{address}_city", with: "Richmond"
+    select "Ohio", from: "#{address}_state_id"
+    fill_in "#{address}_zipcode", with: "12345"
+    fill_in "#{address}_phone", with: "(555) 555-5555"
   end
 
   def add_product_to_cart

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 
 describe "Orders", type: :feature, js: true do
@@ -11,7 +13,7 @@ describe "Orders", type: :feature, js: true do
 
     before do
       bundle.parts << [parts]
-      line_item.update_attributes!(quantity: 3)
+      line_item.update!(quantity: 3)
       order.reload.create_proposed_shipments
       order.finalize!
     end

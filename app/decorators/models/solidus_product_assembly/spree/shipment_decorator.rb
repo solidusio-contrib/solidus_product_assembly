@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module SolidusProductAssembly
   module Spree
     module ShipmentDecorator
@@ -14,7 +16,6 @@ module SolidusProductAssembly
       def manifest
         items = []
         inventory_units.joins(:variant).includes(:variant, :line_item).group_by(&:variant).each do |variant, units|
-
           units.group_by(&:line_item).each do |line_item, units|
             states = {}
             units.group_by(&:state).each { |state, iu| states[state] = iu.count }
@@ -22,11 +23,11 @@ module SolidusProductAssembly
 
             part = line_item ? line_item.product.assembly? : false
             items << OpenStruct.new(part: part,
-              product: line_item.try(:product),
-              line_item: line_item,
-              variant: variant,
-              quantity: units.length,
-              states: states)
+                                    product: line_item.try(:product),
+                                    line_item: line_item,
+                                    variant: variant,
+                                    quantity: units.length,
+                                    states: states)
           end
         end
         items

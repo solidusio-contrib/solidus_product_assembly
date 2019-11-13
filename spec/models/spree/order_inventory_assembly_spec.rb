@@ -1,7 +1,11 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 
 module Spree
   describe OrderInventoryAssembly do
+    subject { described_class.new(line_item) }
+
     let(:order) { create(:order_with_line_items) }
     let(:line_item) { order.line_items.first }
     let(:bundle) { line_item.product }
@@ -11,12 +15,10 @@ module Spree
       bundle.parts << [parts]
       bundle.set_part_count(parts.first, 3)
 
-      line_item.update_attributes!(quantity: 3)
+      line_item.update!(quantity: 3)
       order.reload.create_proposed_shipments
-      order.finalize! 
+      order.finalize!
     end
-
-    subject { OrderInventoryAssembly.new(line_item) }
 
     context "inventory units count" do
       it "calculates the proper value for the bundle" do
@@ -34,7 +36,7 @@ module Spree
         it "inserts new inventory units for every bundle part" do
           expected_units_count = original_units_count + bundle.assemblies_parts.to_a.sum(&:count)
           subject.verify
-          expect(OrderInventoryAssembly.new(line_item.reload).inventory_units.count).to eql(expected_units_count)
+          expect(described_class.new(line_item.reload).inventory_units.count).to eql(expected_units_count)
         end
       end
 
@@ -46,7 +48,7 @@ module Spree
           subject.verify
 
           # needs to reload so that inventory units are fetched from updates order.shipments
-          updated_units_count = OrderInventoryAssembly.new(line_item.reload).inventory_units.count
+          updated_units_count = described_class.new(line_item.reload).inventory_units.count
           expect(updated_units_count).to eql(expected_units_count)
         end
       end

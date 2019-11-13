@@ -1,7 +1,9 @@
+# frozen_string_literal: true
+
 module SolidusProductAssembly
   module Generators
     class InstallGenerator < Rails::Generators::Base
-      class_option :auto_run_migrations, :type => :boolean, :default => false
+      class_option :auto_run_migrations, type: :boolean, default: false
 
       def add_migrations
         run 'rake railties:install:migrations FROM=solidus_product_assembly'
@@ -12,11 +14,11 @@ module SolidusProductAssembly
       end
 
       def run_migrations
-        run_migrations = options[:auto_run_migrations] || ['', 'y', 'Y'].include?(ask 'Would you like to run the migrations now? [Y/n]')
+        run_migrations = options[:auto_run_migrations] || ['', 'y', 'Y'].include?(ask('Would you like to run the migrations now? [Y/n]'))
         if run_migrations
-           run 'rake db:migrate'
-         else
-           puts "Skiping rake db:migrate, don't forget to run it!"
+          run 'rake db:migrate'
+        else
+          puts "Skiping rake db:migrate, don't forget to run it!"
          end
       end
     end

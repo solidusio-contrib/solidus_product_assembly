@@ -1,9 +1,11 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 
 # Spree::Stock::Coordinator was refactored in Solidus to hide keep private
 # information about packages, we have to be sneaky to reach inside
 def inventory_units(coordinator)
-  coordinator.shipments.flat_map { |s| s.inventory_units }
+  coordinator.shipments.flat_map(&:inventory_units)
 end
 
 module Spree

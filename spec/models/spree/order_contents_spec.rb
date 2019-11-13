@@ -1,7 +1,11 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 
 module Spree
   describe OrderContents do
+    subject { described_class.new(order) }
+
     let!(:store) { create :store }
     let(:order) { Order.create }
 
@@ -9,8 +13,6 @@ module Spree
     let(:bass) { create(:variant) }
 
     let(:bundle) { create(:product) }
-
-    subject { OrderContents.new(order) }
 
     before { bundle.parts.push [guitar, bass] }
 
@@ -32,7 +34,7 @@ module Spree
         it "destroys accurate number of inventory units" do
           expect {
             subject.remove(guitar, 3)
-          }.to change { InventoryUnit.count }.by(-3)
+          }.to change(InventoryUnit, :count).by(-3)
         end
       end
     end
