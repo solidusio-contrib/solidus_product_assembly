@@ -1,7 +1,11 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 
 module Spree
   describe InventoryUnit do
+    subject { described_class.create!(attributes) }
+
     let!(:order) { create(:order_with_line_items) }
     let(:line_item) { order.line_items.first }
     let(:product) { line_item.product }
@@ -12,11 +16,10 @@ module Spree
     else
       let(:attributes) { { shipment: shipment, line_item: line_item, variant: line_item.variant } }
     end
-    subject { InventoryUnit.create!(attributes) }
 
     context 'if the unit is not part of an assembly' do
-      it 'it will return the percentage of a line item' do
-        expect(subject.percentage_of_line_item).to eql(BigDecimal.new(1))
+      it 'will return the percentage of a line item' do
+        expect(subject.percentage_of_line_item).to eql(BigDecimal(1))
       end
     end
 
@@ -29,9 +32,9 @@ module Spree
         order.finalize!
       end
 
-      it 'it will return the percentage of a line item' do
+      it 'will return the percentage of a line item' do
         subject.line_item = line_item
-      	expect(subject.percentage_of_line_item).to eql(BigDecimal.new(0.5, 2))
+        expect(subject.percentage_of_line_item).to eql(BigDecimal(0.5, 2))
       end
     end
   end

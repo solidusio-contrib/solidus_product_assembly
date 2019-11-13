@@ -74,7 +74,7 @@ git commit -am 'Update CHANGELOG'
 git push upstream master
 ```
 
-## Contributing
+## Contributing
 
 Spree is an open source project and we encourage contributions. Please see the [contributors guidelines][1] before contributing.
 

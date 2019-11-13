@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module SolidusProductAssembly
   class Engine < Rails::Engine
     engine_name 'solidus_product_assembly'

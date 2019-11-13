@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Spree
   # This class has basically the same functionality of Spree core OrderInventory
   # except that it takes account of bundle parts and properly creates and removes
@@ -19,7 +21,7 @@ module Spree
           self.variant = part
 
           if existing_parts < total_parts
-            shipment = determine_target_shipment unless shipment
+            shipment ||= determine_target_shipment
             add_to_shipment(shipment, total_parts - existing_parts)
           elsif existing_parts > total_parts
             quantity = existing_parts - total_parts
@@ -28,6 +30,7 @@ module Spree
             else
               order.shipments.each do |shipment|
                 break if quantity == 0
+
                 quantity -= remove_from_shipment(shipment, quantity)
               end
             end

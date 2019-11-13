@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class NamespaceProductAssemblyForSpreeOne < SolidusSupport::Migration[4.2]
   def up
     rename_table :assemblies_parts, :spree_assemblies_parts

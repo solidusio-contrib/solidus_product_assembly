@@ -1,10 +1,12 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 
 module Spree
   module Stock
-    describe InventoryUnitBuilder, :type => :model do
-      subject { InventoryUnitBuilder.new(order) }
-      
+    describe InventoryUnitBuilder, type: :model do
+      subject { described_class.new(order) }
+
       context "order shares variant as individual and within bundle" do
         include_context "product is ordered as individual and within a bundle" do
           let(:bundle_item_quantity) { order.find_line_item_by_variant(bundle_variant).quantity }

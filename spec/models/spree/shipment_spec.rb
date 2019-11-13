@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 
 module Spree
@@ -27,7 +29,7 @@ module Spree
         let(:expected_variants) { order.variants - [bundle_variant] + bundle.parts }
 
         it "separates variant purchased individually from the bundle one" do
-          expect(shipments.count).to eql 1
+          expect(shipments.count).to be 1
           expect(shipments.first.manifest.map(&:variant)).to match_array expected_variants
         end
       end
@@ -36,7 +38,7 @@ module Spree
         let(:expected_variants) { order.variants }
 
         it "groups units by line_item only" do
-          expect(shipments.count).to eql 1
+          expect(shipments.count).to be 1
           expect(shipments.first.line_item_manifest.map(&:variant)).to match_array expected_variants
         end
       end
@@ -74,9 +76,9 @@ module Spree
       let(:assembly_shirts) do
         5.times.map {
           create(:inventory_unit,
-                 variant: shirt,
-                 line_item: assembly_line_item,
-                 state: :on_hand)
+            variant: shirt,
+            line_item: assembly_line_item,
+            state: :on_hand)
         }
       end
 
@@ -85,9 +87,9 @@ module Spree
       let(:standalone_shirts) do
         2.times.map {
           create(:inventory_unit,
-                 variant: shirt,
-                 line_item: standalone_line_item,
-                 state: :on_hand)
+            variant: shirt,
+            line_item: standalone_line_item,
+            state: :on_hand)
         }
       end
 

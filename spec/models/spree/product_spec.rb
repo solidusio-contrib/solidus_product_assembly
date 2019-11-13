@@ -1,16 +1,18 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 
 describe Spree::Product do
-  before(:each) do
-    @product = FactoryBot.create(:product, :name => "Foo Bar")
-    @master_variant = Spree::Variant.where(is_master: true).find_by_product_id(@product.id)
+  before do
+    @product = FactoryBot.create(:product, name: "Foo Bar")
+    @master_variant = Spree::Variant.where(is_master: true).find_by(product_id: @product.id)
   end
 
   describe "Spree::Product Assembly" do
-    before(:each) do
+    before do
       @product = create(:product)
-      @part1 = create(:product, :can_be_part => true)
-      @part2 = create(:product, :can_be_part => true)
+      @part1 = create(:product, can_be_part: true)
+      @part2 = create(:product, can_be_part: true)
       @product.add_part @part1.master, 1
       @product.add_part @part2.master, 4
     end
