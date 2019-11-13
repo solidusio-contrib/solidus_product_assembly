@@ -115,7 +115,7 @@ describe "Orders", type: :feature, js: true do
           expect(alert_text).to include 'Please select the split destination'
           page.driver.browser.switch_to.alert.accept
           find('.select2-container').click
-          find(:xpath, '//body').find('.select2-drop li.select2-result', text: "#{location_name} (0 on hand)").click
+          find(:xpath, '//body').all('.select2-drop li.select2-result', text: "#{location_name} (0 on hand)")[0].click
           find('.save-split').click
         end
         expect(page).to have_content /Pending package from '#{location_name}'/i
