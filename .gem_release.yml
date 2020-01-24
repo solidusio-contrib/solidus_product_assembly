@@ -1,0 +1,5 @@
+bump:
+  recurse: false
+  file: 'lib/solidus_product_assembly/version.rb'
+  message: Bump SolidusProductAssembly to %{version}
+  tag: true
