@@ -1,6 +1,6 @@
 <!-- replace ".item-price" -->
 
-<% if item.variant.part? %>
+<% if item.line_item.product.assembly? %>
   <td class="item-price">---</td>
 <% else %>
   <td class="item-price">
