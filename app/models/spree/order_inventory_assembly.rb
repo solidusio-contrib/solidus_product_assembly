@@ -21,8 +21,9 @@ module Spree
           self.variant = part
 
           if existing_parts < total_parts
-            shipment ||= determine_target_shipment
-            add_to_shipment(shipment, total_parts - existing_parts)
+            quantity = total_parts - existing_parts
+            shipment ||= determine_target_shipment(quantity)
+            add_to_shipment(shipment, quantity)
           elsif existing_parts > total_parts
             quantity = existing_parts - total_parts
             if shipment.present?
