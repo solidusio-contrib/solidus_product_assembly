@@ -147,8 +147,14 @@ describe "Checkout", type: :feature do
 
   def fill_in_address
     address = "order_bill_address_attributes"
-    fill_in "#{address}_firstname", with: "Ryan"
-    fill_in "#{address}_lastname", with: "Bigg"
+
+    if ::Spree.solidus_gem_version < Gem::Version.new('2.11.x')
+      fill_in "#{address}_firstname", with: "Ryan"
+      fill_in "#{address}_lastname", with: "Bigg"
+    else
+      fill_in "#{address}_name", with: "Ryan Bigg"
+    end
+
     fill_in "#{address}_address1", with: "143 Swan Street"
     fill_in "#{address}_city", with: "Richmond"
     select "Ohio", from: "#{address}_state_id"
