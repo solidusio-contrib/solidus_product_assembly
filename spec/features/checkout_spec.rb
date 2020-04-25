@@ -148,11 +148,11 @@ describe "Checkout", type: :feature do
   def fill_in_address
     address = "order_bill_address_attributes"
 
-    if ::Spree.solidus_gem_version < Gem::Version.new('2.11.x')
+    if use_address_full_name?
+      fill_in "#{address}_name", with: "Ryan Bigg"
+    else
       fill_in "#{address}_firstname", with: "Ryan"
       fill_in "#{address}_lastname", with: "Bigg"
-    else
-      fill_in "#{address}_name", with: "Ryan Bigg"
     end
 
     fill_in "#{address}_address1", with: "143 Swan Street"
@@ -160,6 +160,11 @@ describe "Checkout", type: :feature do
     select "Ohio", from: "#{address}_state_id"
     fill_in "#{address}_zipcode", with: "12345"
     fill_in "#{address}_phone", with: "(555) 555-5555"
+  end
+
+  def use_address_full_name?
+    Spree::Config.has_preference?(:use_combined_first_and_last_name_in_address) &&
+      Spree::Config.use_combined_first_and_last_name_in_address
   end
 
   def add_product_to_cart
