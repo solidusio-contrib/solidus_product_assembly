@@ -12,6 +12,7 @@ Spree::Core::Engine.routes.draw do
         collection do
           post :available
           get  :selected
+          post :update_positions
         end
       end
     end

@@ -32,5 +32,37 @@ describe Spree::Product do
       @product.set_part_count(@part2.master, 2)
       expect(@product.count_of(@part2.master)).to eq 2
     end
+
+    it 'returns the parts in the correct order' do
+      ordered_ids = @product.parts.pluck(:id)
+
+      expect(ordered_ids.first).to eq(@part1.id)
+      expect(ordered_ids.second).to eq(@part2.id)
+    end
+
+    it 'returns the assemblies parts in the correct order' do
+      ordered_ids = @product.assemblies_parts.pluck(:part_id)
+
+      expect(ordered_ids.first).to eq(@part1.id)
+      expect(ordered_ids.second).to eq(@part2.id)
+    end
+
+    context 'when the user reverse the order' do
+      before { @product.assemblies_parts.first.set_list_position(2) }
+
+      it 'returns the parts in the new order' do
+        ordered_ids = @product.parts.pluck(:id)
+
+        expect(ordered_ids.first).to eq(@part2.id)
+        expect(ordered_ids.second).to eq(@part1.id)
+      end
+
+      it 'returns the assemblies parts in the new order' do
+        ordered_ids = @product.assemblies_parts.pluck(:part_id)
+
+        expect(ordered_ids.first).to eq(@part2.id)
+        expect(ordered_ids.second).to eq(@part1.id)
+      end
+    end
   end
 end

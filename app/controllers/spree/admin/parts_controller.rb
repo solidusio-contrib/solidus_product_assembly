@@ -39,6 +39,18 @@ class Spree::Admin::PartsController < Spree::Admin::BaseController
     render 'spree/admin/parts/update_parts_table'
   end
 
+  def update_positions
+    ActiveRecord::Base.transaction do
+      params[:positions].each do |variant_id, index|
+        @product.assemblies_parts.find_by(part_id: variant_id).set_list_position(index)
+      end
+    end
+
+    respond_to do |format|
+      format.js { head :no_content }
+    end
+  end
+
   private
 
   def find_product

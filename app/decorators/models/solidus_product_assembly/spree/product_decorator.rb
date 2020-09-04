@@ -5,11 +5,13 @@ module SolidusProductAssembly
     module ProductDecorator
       def self.prepended(base)
         base.class_eval do
-          has_and_belongs_to_many :parts, class_name: "Spree::Variant",
+          has_and_belongs_to_many :parts, -> { order('spree_assemblies_parts.position ASC') },
+                                          class_name: "Spree::Variant",
                                           join_table: "spree_assemblies_parts",
                                           foreign_key: "assembly_id", association_foreign_key: "part_id"
 
-          has_many :assemblies_parts, class_name: "Spree::AssembliesPart",
+          has_many :assemblies_parts, -> { order(position: :asc) },
+                                      class_name: "Spree::AssembliesPart",
                                       foreign_key: "assembly_id"
 
           scope :individual_saled, -> { where(individual_sale: true) }

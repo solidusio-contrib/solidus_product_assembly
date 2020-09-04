@@ -2,6 +2,8 @@
 
 module Spree
   class AssembliesPart < ApplicationRecord
+    acts_as_list scope: :assembly
+
     belongs_to :assembly, class_name: "Spree::Product",
                           foreign_key: "assembly_id", touch: true
 

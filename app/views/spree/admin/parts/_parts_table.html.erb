@@ -1,19 +1,26 @@
-<table class="index">
+<table class="index sortable" data-sortable-link="<%= update_positions_admin_product_parts_path(@product) %>">
   <thead>
   	<tr>
+      <th><!--- handle line to sort --></th>
   	  <th><%= t('spree.sku') %></th>
   		<th><%= t('spree.name') %></th>
   		<th><%= t('spree.options') %></th>
   		<th><%= t('spree.qty') %></th>
+      <th><!--- actions --></th>
   	</tr>
   </thead>
   <tbody>
-    <% parts.each do |part| %>
+    <% parts.each_with_index do |part, index| %>
       <tr id="<%= dom_id(part, :sel)%>">
+        <td>
+          <% if can? :update_positions, Spree::AssembliesPart %>
+            <span class="handle"></span>
+          <% end %>
+        </td>
         <td><%= part.sku %></td>
         <td><%= part.product.name %></td>
         <td><%= variant_options part %></td>
-        <td><%= text_field_tag :count, @product.count_of(part) %></td>
+        <td><%= text_field_tag :count, @product.count_of(part), id: "count-#{index+1}" %></td>
   	    <td class="actions">
           <%= link_to_with_icon(
             'edit',
@@ -34,4 +41,10 @@
     <% end %>
   </tbody>
 </table>
-<%= javascript_tag("subscribe_product_part_links();") if request.xhr? %>
+
+<%= javascript_tag do %>
+$(document).ready(function() {
+  subscribe_product_part_links();
+  Spree.refresh_sortable_tables();
+});
+<% end if request.xhr? %>
