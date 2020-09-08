@@ -45,6 +45,6 @@
 <%= javascript_tag do %>
 $(document).ready(function() {
   subscribe_product_part_links();
-  Spree.refresh_sortable_tables();
+  Spree.SortableTable.refresh();
 });
 <% end if request.xhr? %>
