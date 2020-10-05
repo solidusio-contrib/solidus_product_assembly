@@ -9,7 +9,8 @@
 <table class="index">
 	<thead>
 		<tr>
-  		<th><%= t('spree.name') %></th>
+        <th><%= t('spree.name') %></th>
+        <th><%= t('spree.available_on') %></th>
   		<th><%= t('spree.options') %></th>
   		<th><%= t('spree.qty') %></th>
   		<th></th>
@@ -20,6 +21,7 @@
       <tr id="<%= dom_id(product) %>">
 
         <td><%= product.name %></td>
+        <td><%= product.available_on %></td>
         <td>
           <% if product.has_variants? %>
             <%= select_tag "part[id]",

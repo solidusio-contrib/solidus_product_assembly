@@ -2,7 +2,8 @@
   <thead>
   	<tr>
   	  <th><%= t('spree.sku') %></th>
-  		<th><%= t('spree.name') %></th>
+      <th><%= t('spree.name') %></th>
+      <th><%= t('spree.available_on') %></th>
   		<th><%= t('spree.options') %></th>
   		<th><%= t('spree.qty') %></th>
   	</tr>
@@ -12,6 +13,7 @@
       <tr id="<%= dom_id(part, :sel)%>">
         <td><%= part.sku %></td>
         <td><%= part.product.name %></td>
+        <td><%= part.product.available_on %></td>
         <td><%= variant_options part %></td>
         <td><%= text_field_tag :count, @product.count_of(part) %></td>
   	    <td class="actions">
