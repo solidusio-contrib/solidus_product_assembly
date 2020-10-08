@@ -5,6 +5,7 @@ require 'spec_helper'
 module Spree
   describe Shipment do
     context "order has one product assembly" do
+      let!(:store) { create(:store) }
       let(:order) { Order.create }
       let(:bundle) { create(:variant) }
       let!(:parts) { (1..2).map { create(:variant) } }
