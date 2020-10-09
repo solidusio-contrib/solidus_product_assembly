@@ -32,7 +32,7 @@ Gem::Specification.new do |s|
 
   s.add_dependency 'deface'
   s.add_dependency 'solidus_core', ['>= 1.0', '< 3']
-  s.add_dependency 'solidus_support', '~> 0.4.0'
+  s.add_dependency 'solidus_support', '~> 0.5'
 
   s.add_development_dependency 'github_changelog_generator'
   s.add_development_dependency 'selenium-webdriver'

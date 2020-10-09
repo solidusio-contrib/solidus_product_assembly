@@ -2,7 +2,7 @@
 
 module SolidusProductAssembly
   module Spree
-    module InventoryUnit
+    module InventoryUnitDecorator
       def percentage_of_line_item
         product = line_item.product
         if product.assembly?
