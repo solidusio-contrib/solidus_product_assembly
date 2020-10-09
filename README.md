@@ -77,7 +77,7 @@ git push upstream master
 
 ## Contributing
 
-Spree is an open source project and we encourage contributions. Please see the [contributors guidelines][1] before contributing.
+Spree is an open source project and we encourage contributions. Please see the [Community Guidelines][1] before contributing.
 
 In the spirit of [free software][2], **everyone** is encouraged to help improve this project.
 
@@ -106,7 +106,7 @@ Starting point:
 
 Copyright (c) 2014 [Spree Commerce Inc.][4] and [contributors][5], released under the [New BSD License][6]
 
-[1]: http://guides.spreecommerce.com/developer/contributing.html
+[1]: https://solidus.io/community-guidelines/
 [2]: http://www.fsf.org/licensing/essays/free-sw.html
 [3]: https://github.com/spree/spree-product-assembly/issues
 [4]: https://github.com/spree
