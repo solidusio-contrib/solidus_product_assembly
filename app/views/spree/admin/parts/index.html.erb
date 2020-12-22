@@ -1,19 +1,22 @@
 <%# This partial was remove in solidus 1.2 but that is also when Spree.solidus_version was added %>
-<%= render :partial => 'spree/admin/shared/product_sub_menu' if !Spree.respond_to?(:solidus_version) %>
+<%= render 'spree/admin/shared/product_sub_menu' if !Spree.respond_to?(:solidus_version) %>
+<%= render 'spree/admin/shared/product_tabs', current: 'Parts' %>
 
-<%= render :partial => 'spree/admin/shared/product_tabs', :locals => {:current => "Parts"} %>
 <div id="product_parts">
-  <%= render :partial => "parts_table", :locals => {:parts => @parts} %>
+  <%= render 'parts_table', parts: @parts %>
 </div>
 
 <%= form_tag('#') do %>
-  <label><%= t('spree.search') %>:</label>
-  <input id="searchtext" size="25">
+  <label for="searchtext"><%= t('spree.search') %>:</label>
+  <br/>
+  <input id="searchtext" size="25" type="text">
   <button id="search_parts_button" class="fa fa-search button" name="button">Search</button>
 <% end %>
 
 <br/>
+
 <div id="search_hits"></div>
+
 <%= javascript_tag do %>
   /*!
    * Spree Product Assembly
