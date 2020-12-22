@@ -4,7 +4,7 @@ class Spree::Admin::PartsController < Spree::Admin::BaseController
   before_action :find_product
 
   def index
-    @parts = @product.parts
+    @parts = @product.parts.includes(:product)
   end
 
   def remove
