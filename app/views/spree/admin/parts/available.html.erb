@@ -26,7 +26,8 @@
         <td>
           <% if product.has_variants? %>
             <%= select_tag "part[id]",
-                options_for_select(product.variants.map { |v| [variant_options(v), v.id] }) %>
+                options_for_select(product.variants.map { |v| [variant_options(v), v.id] }),
+                class: 'select2' %>
           <% else %>
             <%= hidden_field_tag "part[id]", product.master.id %>
             <%= t(:no_variants) %>
