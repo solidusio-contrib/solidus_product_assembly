@@ -5,10 +5,11 @@ module SolidusProductAssembly
     module VariantDecorator
       def self.prepended(base)
         base.class_eval do
-          has_and_belongs_to_many :assemblies,
-            class_name: "Spree::Product",
-            join_table: "spree_assemblies_parts",
-            foreign_key: "part_id", association_foreign_key: "assembly_id"
+          has_many :assemblies_parts,
+            class_name: 'Spree::AssembliesPart',
+            foreign_key: :part_id
+
+          has_many :assemblies, through: :assemblies_parts
         end
       end
 

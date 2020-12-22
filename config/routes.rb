@@ -9,8 +9,10 @@ Spree::Core::Engine.routes.draw do
           post :remove
           post :set_count
         end
+
         collection do
           post :available
+          post :update_positions
           get  :selected
         end
       end

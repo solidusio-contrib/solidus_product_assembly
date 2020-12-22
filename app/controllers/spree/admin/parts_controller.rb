@@ -20,12 +20,13 @@ class Spree::Admin::PartsController < Spree::Admin::BaseController
   end
 
   def available
-    if params[:q].blank?
-      @available_products = []
-    else
-      query = "%#{params[:q]}%"
-      @available_products = Spree::Product.search_can_be_part(query).distinct
-    end
+    @available_products =
+      if params[:q].blank?
+        []
+      else
+        Spree::Product.search_can_be_part("%#{params[:q]}%").distinct
+      end
+
     respond_to do |format|
       format.html { render layout: false }
       format.js { render layout: false }
@@ -37,6 +38,20 @@ class Spree::Admin::PartsController < Spree::Admin::BaseController
     qty = params[:part_count].to_i
     @product.add_part(@part, qty) if qty > 0
     render 'spree/admin/parts/update_parts_table'
+  end
+
+  # Taken from Spree::Admin::ResourceController. This controller should be moved
+  # over to the resource controller.
+  def update_positions
+    ActiveRecord::Base.transaction do
+      params[:positions].each do |id, index|
+        model_class.find_by(id: id)&.set_list_position(index)
+      end
+    end
+
+    respond_to do |format|
+      format.js { head :no_content }
+    end
   end
 
   private

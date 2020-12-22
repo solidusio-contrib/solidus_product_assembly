@@ -1,16 +1,20 @@
-<table class="index">
+<table class="index sortable" data-sortable-link="<%= spree.update_positions_admin_parts_path %>">
   <thead>
   	<tr>
+      <th></th>
   	  <th><%= t('spree.sku') %></th>
       <th><%= t('spree.name') %></th>
       <th><%= t('spree.available_on') %></th>
   		<th><%= t('spree.options') %></th>
   		<th><%= t('spree.qty') %></th>
+      <th class="actions"></th>
   	</tr>
   </thead>
+
   <tbody>
     <% parts.each do |part| %>
       <tr id="<%= dom_id(part, :sel)%>">
+        <td><span class="handle"></span></td>
         <td><%= part.sku %></td>
         <td><%= part.product.name %></td>
         <td><%= part.product.available_on %></td>
@@ -18,22 +22,26 @@
         <td><%= text_field_tag :count, @product.count_of(part) %></td>
   	    <td class="actions">
           <%= link_to_with_icon(
-            'edit',
-            t('spree.actions.edit'),
+            'save',
+            'Save',
             set_count_admin_product_part_url(@product, part),
-            :class => "set_count_admin_product_part_link save-line-item") %>
+            no_text: true,
+            class: "set_count_admin_product_part_link save-line-item") %>
 
           <%= link_to_with_icon(
-            'delete',
+            'trash',
             t('spree.actions.delete'),
             remove_admin_product_part_url(@product, part),
+            no_text: true,
             class: "remove_admin_product_part_link delete-line-item") %>
-  	    </td>
+        </td>
       </tr>
     <% end %>
+
     <% if parts.empty? %>
-     <tr><td colspan="5"><%= t('spree.none') %>.</td></tr>
+      <tr><td colspan="5"><%= t('spree.none') %>.</td></tr>
     <% end %>
   </tbody>
 </table>
+
 <%= javascript_tag("subscribe_product_part_links();") if request.xhr? %>
