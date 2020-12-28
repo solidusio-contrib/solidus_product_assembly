@@ -6,6 +6,8 @@ class Spree::Admin::PartsController < Spree::Admin::BaseController
   def index
     @assembly_parts = @product
       .assemblies_parts
+      .joins(:part)
+      .where(spree_variants: { deleted_at: nil })
       .includes(part: :product)
   end
 
