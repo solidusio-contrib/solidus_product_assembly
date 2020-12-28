@@ -1,4 +1,4 @@
-<table class="index sortable" data-sortable-link="<%= spree.update_positions_admin_product_parts_path(@product) %>">
+<table class="index sortable" data-sortable-link="<%= spree.update_positions_admin_product_assemblies_parts_path(@product) %>">
   <thead>
   	<tr>
       <th></th>
@@ -12,18 +12,20 @@
   </thead>
 
   <tbody>
-    <% parts.each do |part| %>
-      <tr id="<%= dom_id(part, :sel)%>">
+    <% assembly_parts.each do |assembly_part| %>
+      <% part = assembly_part.part %>
+
+      <tr id="<%= dom_id(assembly_part, :sel)%>">
         <td><span class="handle"></span></td>
         <td><%= part.sku %></td>
         <td><%= part.product.name %></td>
         <td><%= part.product.available_on %></td>
-        <td><%= variant_options part %></td>
-        <td><%= text_field_tag :count, @product.count_of(part) %></td>
+        <td><%= part.options_text %></td>
+        <td><%= text_field_tag :count, assembly_part.count %></td>
   	    <td class="actions">
           <%= link_to_with_icon(
             'save',
-            'Save',
+            t('spree.actions.save'),
             set_count_admin_product_part_url(@product, part),
             no_text: true,
             class: "set_count_admin_product_part_link save-line-item") %>
@@ -38,7 +40,7 @@
       </tr>
     <% end %>
 
-    <% if parts.empty? %>
+    <% if assembly_parts.empty? %>
       <tr><td colspan="5"><%= t('spree.none') %>.</td></tr>
     <% end %>
   </tbody>

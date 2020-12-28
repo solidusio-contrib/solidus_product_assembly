@@ -21,7 +21,6 @@
 	<tbody>
     <% @available_products.each do |product| %>
       <tr id="<%= dom_id(product) %>">
-
         <td><%= product.name %></td>
         <td><%= product.available_on %></td>
         <td>

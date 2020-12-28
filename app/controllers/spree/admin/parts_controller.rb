@@ -4,7 +4,9 @@ class Spree::Admin::PartsController < Spree::Admin::BaseController
   before_action :find_product
 
   def index
-    @parts = @product.parts
+    @assembly_parts = @product
+      .assemblies_parts
+      .includes(part: :product)
   end
 
   def remove
@@ -38,20 +40,6 @@ class Spree::Admin::PartsController < Spree::Admin::BaseController
     qty = params[:part_count].to_i
     @product.add_part(@part, qty) if qty > 0
     render 'spree/admin/parts/update_parts_table'
-  end
-
-  # Taken from Spree::Admin::ResourceController. This controller should be moved
-  # over to the resource controller.
-  def update_positions
-    ActiveRecord::Base.transaction do
-      params[:positions].each do |id, index|
-        model_class.where(id: id).each { |r| r.set_list_position(index) }
-      end
-    end
-
-    respond_to do |format|
-      format.js { head :no_content }
-    end
   end
 
   private

@@ -3,6 +3,12 @@
 Spree::Core::Engine.routes.draw do
   namespace :admin do
     resources :products do
+      resources :assemblies_parts, only: [] do
+        collection do
+          post :update_positions
+        end
+      end
+
       resources :parts do
         member do
           post :select
@@ -12,7 +18,6 @@ Spree::Core::Engine.routes.draw do
 
         collection do
           post :available
-          post :update_positions
           get  :selected
         end
       end
