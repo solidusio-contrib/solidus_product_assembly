@@ -1,14 +1,14 @@
 <table class="index sortable" data-sortable-link="<%= spree.update_positions_admin_product_assemblies_parts_path(@product) %>">
   <thead>
-  	<tr>
+    <tr>
       <th></th>
-  	  <th><%= t('spree.sku') %></th>
+      <th><%= t('spree.sku') %></th>
       <th><%= t('spree.name') %></th>
       <th><%= t('spree.available_on') %></th>
-  		<th><%= t('spree.options') %></th>
-  		<th><%= t('spree.qty') %></th>
+      <th><%= t('spree.options') %></th>
+      <th><%= t('spree.qty') %></th>
       <th class="actions"></th>
-  	</tr>
+    </tr>
   </thead>
 
   <tbody>
@@ -22,7 +22,7 @@
         <td><%= part.product.available_on %></td>
         <td><%= part.options_text %></td>
         <td><%= text_field_tag :count, assembly_part.count %></td>
-  	    <td class="actions">
+        <td class="actions">
           <%= link_to_with_icon(
             'save',
             t('spree.actions.save'),
