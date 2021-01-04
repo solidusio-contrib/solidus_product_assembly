@@ -4,11 +4,7 @@ class Spree::Admin::PartsController < Spree::Admin::BaseController
   before_action :find_product
 
   def index
-    @assembly_parts = @product
-      .assemblies_parts
-      .joins(:part)
-      .where(spree_variants: { deleted_at: nil })
-      .includes(part: :product)
+    @assembly_parts = @product.display_assembly_parts
   end
 
   def remove
