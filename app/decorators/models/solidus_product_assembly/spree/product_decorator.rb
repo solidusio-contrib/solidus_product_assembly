@@ -27,12 +27,10 @@ module SolidusProductAssembly
         end
       end
 
-      # Removes assembly parts whose variants have been deleted and includes
-      # part and that products part to be used in the parts_table.
+      # Includes part and that products part to be used in the parts_table.
       def display_assembly_parts
         assemblies_parts
           .joins(:part)
-          .where(spree_variants: { deleted_at: nil })
           .includes(part: :product)
       end
 

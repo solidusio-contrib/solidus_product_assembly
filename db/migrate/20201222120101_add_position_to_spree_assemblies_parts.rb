@@ -5,7 +5,7 @@ class AddPositionToSpreeAssembliesParts < SolidusSupport::Migration[4.2]
     add_column :spree_assemblies_parts, :position, :integer, limit: 2
 
     product_ids = Spree::AssembliesPart.distinct(:assembly_id).pluck(:assembly_id)
-    Spree::Product.with_deleted.where(id: product_ids).find_each do |product|
+    Spree::Product.with_discarded.where(id: product_ids).find_each do |product|
       product.assemblies_parts.each.with_index(1) do |part, index|
         part.update!(position: index)
       end
