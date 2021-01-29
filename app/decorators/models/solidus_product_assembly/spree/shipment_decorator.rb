@@ -14,23 +14,23 @@ module SolidusProductAssembly
       # TODO Can possibly be removed as well. We already override the manifest
       # partial so we can get the product there
       def manifest
-        items = []
-        inventory_units.joins(:variant).includes(:variant, :line_item).group_by(&:variant).each do |variant, units|
-          units.group_by(&:line_item).each do |line_item, units|
-            states = {}
-            units.group_by(&:state).each { |state, iu| states[state] = iu.count }
-            line_item ||= order.find_line_item_by_variant(variant)
+        inventory_units
+          .joins(:variant)
+          .includes(:variant, :line_item)
+          .group_by(&:variant)
+          .each_with_object([]) do |(variant, units), items|
+            units.group_by(&:line_item).each do |line_item, units|
+              states = {}
+              units.group_by(&:state).each { |state, iu| states[state] = iu.count }
+              line_item ||= order.find_line_item_by_variant(variant)
 
-            part = line_item ? line_item.product.assembly? : false
-            items << OpenStruct.new(part: part,
-                                    product: line_item.try(:product),
-                                    line_item: line_item,
-                                    variant: variant,
-                                    quantity: units.length,
-                                    states: states)
+              part = line_item ? line_item.product.assembly? : false
+              items << OpenStruct.new(
+                part: part, product: line_item.try(:product), line_item: line_item,
+                variant: variant, quantity: units.length, states: states
+              )
+            end
           end
-        end
-        items
       end
 
       # There might be scenarios where we don't want to display every single

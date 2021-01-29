@@ -1,41 +1,37 @@
 # frozen_string_literal: true
 
-require 'spec_helper'
+describe Spree::OrderContents do
+  subject(:contents) { described_class.new(order) }
 
-module Spree
-  describe OrderContents do
-    subject { described_class.new(order) }
+  let(:store) { create :store }
+  let(:order) { create :order, store: store }
 
-    let!(:store) { create :store }
-    let(:order) { Order.create }
+  let(:guitar) { create(:variant) }
+  let(:bass) { create(:variant) }
 
-    let(:guitar) { create(:variant) }
-    let(:bass) { create(:variant) }
+  let(:bundle) { create(:product) }
 
-    let(:bundle) { create(:product) }
+  before { bundle.parts.push [guitar, bass] }
 
-    before { bundle.parts.push [guitar, bass] }
+  context "same variant within bundle and as regular product" do
+    let!(:guitar_item) { contents.add(guitar, 3) }
+    let!(:bundle_item) { contents.add(bundle.master, 5) }
 
-    context "same variant within bundle and as regular product" do
-      let!(:guitar_item) { subject.add(guitar, 3) }
-      let!(:bundle_item) { subject.add(bundle.master, 5) }
+    it "destroys the variant as regular product only" do
+      contents.remove(guitar, 3)
+      expect(order.reload.line_items.to_a).to eq [bundle_item]
+    end
 
-      it "destroys the variant as regular product only" do
-        subject.remove(guitar, 3)
-        expect(order.reload.line_items.to_a).to eq [bundle_item]
+    context "completed order" do
+      before do
+        order.create_proposed_shipments
+        order.touch :completed_at
       end
 
-      context "completed order" do
-        before do
-          order.create_proposed_shipments
-          order.touch :completed_at
-        end
-
-        it "destroys accurate number of inventory units" do
-          expect {
-            subject.remove(guitar, 3)
-          }.to change(InventoryUnit, :count).by(-3)
-        end
+      it "destroys accurate number of inventory units" do
+        expect do
+          contents.remove(guitar, 3)
+        end.to change(Spree::InventoryUnit, :count).by(-3)
       end
     end
   end

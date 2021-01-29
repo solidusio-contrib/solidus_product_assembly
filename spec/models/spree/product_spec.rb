@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require 'spec_helper'
-
 describe Spree::Product do
   before do
     @product = FactoryBot.create(:product, name: "Foo Bar")

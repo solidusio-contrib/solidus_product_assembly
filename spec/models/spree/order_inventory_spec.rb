@@ -1,36 +1,32 @@
 # frozen_string_literal: true
 
-require 'spec_helper'
+describe Spree::OrderInventory do
+  subject { described_class.new(order, order.line_items.first) }
 
-module Spree
-  describe OrderInventory do
-    subject { described_class.new(order, order.line_items.first) }
+  let!(:store) { create :store }
+  let(:order) { Spree::Order.create! }
 
-    let!(:store) { create :store }
-    let(:order) { Order.create }
+  context "same variant within bundle and as regular product" do
+    let(:contents) { Spree::OrderContents.new(order) }
+    let(:guitar) { create(:variant) }
+    let(:bass) { create(:variant) }
 
-    context "same variant within bundle and as regular product" do
-      let(:contents) { OrderContents.new(order) }
-      let(:guitar) { create(:variant) }
-      let(:bass) { create(:variant) }
+    let(:bundle) { create(:product) }
 
-      let(:bundle) { create(:product) }
+    before { bundle.parts.push [guitar, bass] }
 
-      before { bundle.parts.push [guitar, bass] }
+    let!(:bundle_item) { contents.add(bundle.master, 5) }
+    let!(:guitar_item) { contents.add(guitar, 3) }
 
-      let!(:bundle_item) { contents.add(bundle.master, 5) }
-      let!(:guitar_item) { contents.add(guitar, 3) }
+    let!(:shipment) { order.create_proposed_shipments.first }
 
-      let!(:shipment) { order.create_proposed_shipments.first }
+    context "completed order" do
+      before { order.touch :completed_at }
 
-      context "completed order" do
-        before { order.touch :completed_at }
-
-        it "removes only units associated with provided line item" do
-          expect {
-            subject.send(:remove_from_shipment, shipment, 5)
-          }.not_to change { bundle_item.inventory_units.count }
-        end
+      it "removes only units associated with provided line item" do
+        expect {
+          subject.send(:remove_from_shipment, shipment, 5)
+        }.not_to change { bundle_item.inventory_units.count }
       end
     end
   end
