@@ -1,19 +1,36 @@
-<%# This partial was remove in solidus 1.2 but that is also when Spree.solidus_version was added %>
-<%= render :partial => 'spree/admin/shared/product_sub_menu' if !Spree.respond_to?(:solidus_version) %>
+<%= render 'spree/admin/shared/product_tabs', current: "Parts"  %>
 
-<%= render :partial => 'spree/admin/shared/product_tabs', :locals => {:current => "Parts"} %>
-<div id="product_parts">
-  <%= render :partial => "parts_table", :locals => {:parts => @parts} %>
+<fieldset>
+  <legend align="center"><%= t('spree.parts') %></legend>
+
+  <div id="product_parts">
+    <%= render 'parts_table', parts: @parts %>
+  </div>
+</fieldset>
+
+<div id="table-filter" data-hook>
+  <fieldset>
+    <legend align="center"><%= t('solidus_product_assembly.add_parts') %></legend>
+
+    <form action="#">
+      <div class="row" data-hook="admin_products_index_search" >
+        <div class="col-12">
+          <div class="field">
+            <label><%= t('spree.name') %>/<%= t('spree.sku') %></label>
+            <input type="text" id="searchtext">
+          </div>
+        </div>
+      </div>
+
+      <div class="actions filter-actions" data-hook="admin_products_index_search_buttons">
+        <%= button_tag t('spree.search'), class: 'btn btn-primary', id: 'search_parts_button' %>
+      </div>
+    </form>
+  </fieldset>
 </div>
 
-<%= form_tag('#') do %>
-  <label><%= t('spree.search') %>:</label>
-  <input id="searchtext" size="25">
-  <button id="search_parts_button" class="fa fa-search button" name="button">Search</button>
-<% end %>
-
-<br/>
 <div id="search_hits"></div>
+
 <%= javascript_tag do %>
   /*!
    * Spree Product Assembly

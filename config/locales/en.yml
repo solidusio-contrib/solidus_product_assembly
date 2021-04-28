@@ -12,3 +12,5 @@ en:
     part_of_bundle: 'Part of bundle %{sku}'
     actions:
       delete: 'Delete'
+  solidus_product_assembly:
+    add_parts: Add Parts

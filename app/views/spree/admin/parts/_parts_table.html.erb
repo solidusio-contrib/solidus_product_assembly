@@ -1,12 +1,13 @@
 <table class="index">
   <thead>
-  	<tr>
-  	  <th><%= t('spree.sku') %></th>
+    <tr>
+      <th><%= t('spree.sku') %></th>
       <th><%= t('spree.name') %></th>
       <th><%= t('spree.available_on') %></th>
-  		<th><%= t('spree.options') %></th>
-  		<th><%= t('spree.qty') %></th>
-  	</tr>
+      <th><%= t('spree.options') %></th>
+      <th><%= t('spree.qty') %></th>
+      <th></th>
+    </tr>
   </thead>
   <tbody>
     <% parts.each do |part| %>
@@ -16,23 +17,30 @@
         <td><%= part.product.available_on %></td>
         <td><%= variant_options part %></td>
         <td><%= text_field_tag :count, @product.count_of(part) %></td>
-  	    <td class="actions">
-          <%= link_to_with_icon(
-            'edit',
-            t('spree.actions.edit'),
-            set_count_admin_product_part_url(@product, part),
-            :class => "set_count_admin_product_part_link save-line-item") %>
+        <td class="actions">
+          <%=
+            link_to_with_icon(
+              'edit',
+              t('spree.actions.edit'),
+              set_count_admin_product_part_url(@product, part),
+              class: "set_count_admin_product_part_link save-line-item",
+              no_text: true,
+            ) %>
 
-          <%= link_to_with_icon(
-            'delete',
-            t('spree.actions.delete'),
-            remove_admin_product_part_url(@product, part),
-            class: "remove_admin_product_part_link delete-line-item") %>
-  	    </td>
+          <%=
+            link_to_with_icon(
+              'trash',
+              t('spree.actions.delete'),
+              remove_admin_product_part_url(@product, part),
+              class: "remove_admin_product_part_link delete-line-item",
+              no_text: true,
+            )
+          %>
+        </td>
       </tr>
     <% end %>
     <% if parts.empty? %>
-     <tr><td colspan="5"><%= t('spree.none') %>.</td></tr>
+      <tr><td colspan="5"><%= t('spree.none') %>.</td></tr>
     <% end %>
   </tbody>
 </table>

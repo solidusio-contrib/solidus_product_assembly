@@ -1,14 +1,19 @@
-<div class="left six columns alpha">
-  <div class="field">
-    <%= f.label :can_be_part, t('spree.can_be_part')%>
-    <%= f.check_box(:can_be_part) %>
-  </div>
+<div data-hook="admin_product_form_can_be_part">
+  <%= f.field_container :can_be_part do %>
+    <label>
+      <%= f.check_box :can_be_part %>
+      <%= Spree::Product.human_attribute_name(:can_be_part) %>
+    </label>
+  <% end %>
 </div>
-<div class="right six columns omega">
-  <div class="field">
-    <%= f.label :individual_sale, t('spree.individual_sale')%>
-    <%= f.check_box(:individual_sale) %>
-  </div>
+
+<div data-hook="admin_product_form_individual_sale">
+  <%= f.field_container :individual_sale do %>
+    <label>
+      <%= f.check_box :individual_sale %>
+      <%= Spree::Product.human_attribute_name(:individual_sale) %>
+    </label>
+  <% end %>
 </div>
 
 <% if @product.assembly? %>
