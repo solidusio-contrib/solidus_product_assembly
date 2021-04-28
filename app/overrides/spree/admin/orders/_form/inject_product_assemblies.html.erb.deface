@@ -1,3 +1,49 @@
 <!-- insert_top 'div[data-hook=admin_order_form_fields]' -->
 
-<%= render partial: 'spree/admin/orders/assemblies', locals: { order: order } %>
+<% if order.line_items.assemblies.any? %>
+  <fieldset class="no-border-bottom">
+    <legend align="center" class="" data-hook="">
+      <%= t('spree.product_bundles') %>
+    </legend>
+
+    <table class="product-bundles index" data-hook="line-items">
+      <colgroup>
+        <col style="width: 15%;" />
+        <col style="width: 40%;" />
+        <col style="width: 15%;" />
+        <col style="width: 15%;" />
+        <col style="width: 15%;" />
+      </colgroup>
+
+      <thead>
+        <tr>
+          <th colspan="2"><%= Spree::Product.human_attribute_name(:name) %></th>
+          <th><%= Spree::LineItem.human_attribute_name(:price) %></th>
+          <th><%= Spree::LineItem.human_attribute_name(:quantity) %></th>
+          <th><%= Spree::LineItem.human_attribute_name(:total) %></th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <% order.line_items.assemblies.each do |item| %>
+          <%= content_tag :tr, class: 'line-item', id: "line-item-#{item.id}", data: { line_item_id: item.id } do %>
+            <td class="line-item-image">
+              <%= render 'spree/admin/shared/image', image: item.variant.gallery.images.first, size: :mini %>
+            </td>
+            <td class="line-item-name">
+              <%= item.variant.product.name %><br><%= "(" + variant_options(item.variant) + ")" unless item.variant.option_values.empty? %>
+              <% if item.variant.sku.present? %>
+                <strong><%= Spree::Variant.human_attribute_name(:sku) %>:</strong> <%= item.variant.sku %>
+              <% end %>
+            </td>
+            <td class="line-item-price align-center"><%= item.single_money.to_html %></td>
+            <td class="line-item-qty-show align-center">
+              <%= item.quantity %>
+            </td>
+            <td class="line-item-total align-center"><%= line_item_shipment_price(item, item.quantity) %></td>
+          <% end %>
+        <% end %>
+      </tbody>
+    </table>
+  </fieldset>
+<% end %>

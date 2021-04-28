@@ -1,3 +1,5 @@
+<!-- insert_bottom "[data-hook='admin_product_form_right']" -->
+
 <div data-hook="admin_product_form_can_be_part">
   <%= f.field_container :can_be_part do %>
     <label>

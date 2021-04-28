@@ -1,3 +1,5 @@
+<!-- insert_bottom "[data-hook='admin_product_tabs']" -->
+
 <%= content_tag :li, class: ('active' if current == 'Parts') do %>
   <%= link_to t('spree.parts'), spree.admin_product_parts_url(@product) %>
 <% end %>
