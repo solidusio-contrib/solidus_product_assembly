@@ -1,6 +1,8 @@
 <% shipment.manifest.each do |item| %>
   <tr class="stock-item" data-item-quantity="<%= item.quantity %>" data-variant-id="<%= item.variant.id %>">
-    <td class="item-image"><%= image_tag item.variant.display_image.attachment(:mini) %></td>
+    <td class="item-image"><%= render 'spree/shared/image',
+                      image: (item.variant.gallery.images.first || item.variant.product.gallery.images.first),
+                      size: :mini %></td>
     <td class="item-name">
       <%= link_to item.variant.product.name, edit_admin_product_path(item.variant.product) %><br><%= "(" + variant_options(item.variant) + ")" unless item.variant.option_values.empty? %>
       <% if item.part && item.line_item %>

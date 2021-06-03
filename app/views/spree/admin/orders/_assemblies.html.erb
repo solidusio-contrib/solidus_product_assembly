@@ -26,7 +26,9 @@
     <tbody>
       <% order.line_items.assemblies.each do |item| %>
         <%= content_tag :tr, class: 'line-item', id: "line-item-#{item.id}", data: { line_item_id: item.id } do %>
-          <td class="line-item-image"><%= image_tag item.variant.display_image.attachment(:mini) %></td>
+          <td class="line-item-image"><%= render 'spree/shared/image',
+                      image: (item.variant.gallery.images.first || item.variant.product.gallery.images.first),
+                      size: :mini %></td>
           <td class="line-item-name">
             <%= item.variant.product.name %><br><%= "(" + variant_options(item.variant) + ")" unless item.variant.option_values.empty? %>
             <% if item.variant.sku.present? %>
