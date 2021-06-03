@@ -11,7 +11,7 @@ end
 module Spree
   module Stock
     coordinator_class =
-      if SolidusSupport.solidus_gem_version < Gem::Version.new('2.4.x')
+      if Spree.solidus_gem_version < Gem::Version.new('2.4.x')
         Coordinator
       else
         SimpleCoordinator

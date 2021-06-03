@@ -11,7 +11,7 @@ module Spree
     let(:product) { line_item.product }
     let(:shipment) { create(:shipment, order: order) }
 
-    if SolidusSupport.solidus_gem_version < Gem::Version.new('2.5.x')
+    if Spree.solidus_gem_version < Gem::Version.new('2.5.x')
       let(:attributes) { { shipment: shipment, line_item: line_item, variant: line_item.variant, order: order } }
     else
       let(:attributes) { { shipment: shipment, line_item: line_item, variant: line_item.variant } }
