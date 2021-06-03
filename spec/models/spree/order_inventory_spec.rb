@@ -24,7 +24,10 @@ module Spree
       let!(:shipment) { order.create_proposed_shipments.first }
 
       context "completed order" do
-        before { order.touch :completed_at }
+        before do
+          order.touch :completed_at
+          order.shipments.first.save
+        end
 
         it "removes only units associated with provided line item" do
           expect {

@@ -14,7 +14,10 @@ module Spree
       let!(:line_item) { order.contents.add(bundle, 1) }
       let!(:shipment) { order.create_proposed_shipments.first }
 
-      before { order.update_column :state, 'complete' }
+      before do
+         order.update_column :state, 'complete'
+         order.shipments.first.save
+      end
 
       it "shipment item cost equals line item amount" do
         expect(shipment.item_cost).to eq line_item.amount
@@ -28,6 +31,7 @@ module Spree
 
       context "default" do
         let(:expected_variants) { order.variants - [bundle_variant] + bundle.parts }
+        before {shipments.first.save }
 
         it "separates variant purchased individually from the bundle one" do
           expect(shipments.count).to be 1
@@ -37,6 +41,7 @@ module Spree
 
       context "line items manifest" do
         let(:expected_variants) { order.variants }
+        before { shipments.first.save }
 
         it "groups units by line_item only" do
           expect(shipments.count).to be 1

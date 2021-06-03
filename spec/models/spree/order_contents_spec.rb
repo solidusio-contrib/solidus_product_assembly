@@ -29,12 +29,12 @@ module Spree
         before do
           order.create_proposed_shipments
           order.touch :completed_at
+          order.shipments.first.save
         end
 
         it "destroys accurate number of inventory units" do
-          expect {
-            subject.remove(guitar, 3)
-          }.to change(InventoryUnit, :count).by(-3)
+          expect { subject.remove(guitar, 3) }.
+          to change(InventoryUnit, :count).by(-3)
         end
       end
     end
