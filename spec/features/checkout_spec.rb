@@ -163,8 +163,7 @@ describe "Checkout", type: :feature do
   end
 
   def use_address_full_name?
-    Spree::Config.has_preference?(:use_combined_first_and_last_name_in_address) &&
-      Spree::Config.use_combined_first_and_last_name_in_address
+    SolidusSupport.combined_first_and_last_name_in_address? 
   end
 
   def add_product_to_cart
