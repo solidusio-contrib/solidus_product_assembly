@@ -24,6 +24,7 @@ else
 end
 
 group :test do
+  gem 'webdrivers'
   gem 'selenium-webdriver'
 end
 
