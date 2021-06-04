@@ -11,12 +11,14 @@ require File.expand_path('dummy/config/environment.rb', __dir__)
 # Requires factories and other useful helpers defined in spree_core.
 require 'solidus_dev_support/rspec/feature_helper'
 
+# This will load Solidus Core factories right before the ones defined in
+# lib/extension_name/testing_support/factories/*_factory.rb or
+# lib/extension_name/testing_support/factories.rb
+SolidusDevSupport::TestingSupport::Factories.load_for(SolidusProductAssembly::Engine)
+
 # Requires supporting ruby files with custom matchers and macros, etc,
 # in spec/support/ and its subdirectories.
 Dir[File.join(File.dirname(__FILE__), 'support/**/*.rb')].each { |f| require f }
-
-# Requires factories defined in lib/solidus_product_assembly/factories.rb
-require 'solidus_product_assembly/factories'
 
 RSpec.configure do |config|
   config.infer_spec_type_from_file_location!
