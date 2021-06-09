@@ -29,7 +29,6 @@ module Spree
         before do
           order.create_proposed_shipments
           order.touch :completed_at
-          order.shipments.first.save
         end
 
         it "destroys accurate number of inventory units" do

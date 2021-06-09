@@ -26,7 +26,6 @@ module Spree
       context "completed order" do
         before do
           order.touch :completed_at
-          order.shipments.first.save
         end
 
         it "removes only units associated with provided line item" do

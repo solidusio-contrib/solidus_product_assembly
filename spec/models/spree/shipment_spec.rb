@@ -16,7 +16,6 @@ module Spree
 
       before do
          order.update_column :state, 'complete'
-         order.shipments.first.save
       end
 
       it "shipment item cost equals line item amount" do
