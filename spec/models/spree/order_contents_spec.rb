@@ -32,9 +32,8 @@ module Spree
         end
 
         it "destroys accurate number of inventory units" do
-          expect {
-            subject.remove(guitar, 3)
-          }.to change(InventoryUnit, :count).by(-3)
+          expect { subject.remove(guitar, 3) }.
+          to change(InventoryUnit, :count).by(-3)
         end
       end
     end
