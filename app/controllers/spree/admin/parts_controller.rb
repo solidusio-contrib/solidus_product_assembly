@@ -4,7 +4,7 @@ class Spree::Admin::PartsController < Spree::Admin::BaseController
   before_action :find_product
 
   def index
-    @parts = @product.parts
+    @assembly_parts = @product.display_assembly_parts
   end
 
   def remove
@@ -20,12 +20,13 @@ class Spree::Admin::PartsController < Spree::Admin::BaseController
   end
 
   def available
-    if params[:q].blank?
-      @available_products = []
-    else
-      query = "%#{params[:q]}%"
-      @available_products = Spree::Product.search_can_be_part(query).distinct
-    end
+    @available_products =
+      if params[:q].blank?
+        []
+      else
+        Spree::Product.search_can_be_part("%#{params[:q]}%").distinct
+      end
+
     respond_to do |format|
       format.html { render layout: false }
       format.js { render layout: false }

@@ -7,6 +7,7 @@
 </script>
 
 <h4><%= t('spree.available_parts') %></h4>
+
 <table class="index">
 	<thead>
 		<tr>
@@ -20,13 +21,13 @@
 	<tbody>
     <% @available_products.each do |product| %>
       <tr id="<%= dom_id(product) %>">
-
         <td><%= product.name %></td>
         <td><%= product.available_on %></td>
         <td>
           <% if product.has_variants? %>
             <%= select_tag "part[id]",
-                options_for_select(product.variants.map { |v| [variant_options(v), v.id] }) %>
+                options_for_select(product.variants.map { |v| [variant_options(v), v.id] }),
+                class: 'custom-select fullwidth' %>
           <% else %>
             <%= hidden_field_tag "part[id]", product.master.id %>
             <%= t(:no_variants) %>
@@ -36,12 +37,13 @@
 		    <td class="actions">
 		      <%= link_to(t('spree.select'),
 		                  admin_product_parts_path(@product),
-		                  :class => "add_product_part_link btn btn-primary") %>
+		                  class: "add_product_part_link btn btn-primary") %>
 		    </td>
       </tr>
     <% end %>
+
     <% if @available_products.empty? %>
-     <tr><td colspan="3"><%= t('spree.no_match_found') %>.</td></tr>
+      <tr><td colspan="3"><%= t('spree.no_match_found') %>.</td></tr>
     <% end %>
   </tbody>
 </table>

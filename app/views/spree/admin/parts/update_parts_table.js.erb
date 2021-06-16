@@ -1,2 +1,2 @@
-$("#product_parts").html("<%= escape_javascript(render(:partial => "parts_table", :locals => {:parts => @product.parts})) %>");
+$("#product_parts").html("<%= j render('parts_table', assembly_parts: @product.display_assembly_parts) %>");
 $("#search_hits").hide();
