@@ -1,28 +1,33 @@
 # frozen_string_literal: true
 
 # Configure Rails Environment
-ENV['RAILS_ENV'] ||= 'test'
+ENV['RAILS_ENV'] = 'test'
 
 # Run Coverage report
 require 'solidus_dev_support/rspec/coverage'
 
-require File.expand_path('dummy/config/environment.rb', __dir__)
+# Create the dummy app if it's still missing.
+dummy_env = "#{__dir__}/dummy/config/environment.rb"
+system 'bin/rake extension:test_app' unless File.exist? dummy_env
+require dummy_env
 
 # Requires factories and other useful helpers defined in spree_core.
 require 'solidus_dev_support/rspec/feature_helper'
 
-# This will load Solidus Core factories right before the ones defined in
-# lib/extension_name/testing_support/factories/*_factory.rb or
-# lib/extension_name/testing_support/factories.rb
-SolidusDevSupport::TestingSupport::Factories.load_for(SolidusProductAssembly::Engine)
-
 # Requires supporting ruby files with custom matchers and macros, etc,
 # in spec/support/ and its subdirectories.
-Dir[File.join(File.dirname(__FILE__), 'support/**/*.rb')].each { |f| require f }
+Dir["#{__dir__}/support/**/*.rb"].sort.each { |f| require f }
+
+# Requires factories defined in lib/solidus_product_assembly/testing_support/factories.rb
+SolidusDevSupport::TestingSupport::Factories.load_for(SolidusProductAssembly::Engine)
 
 RSpec.configure do |config|
   config.infer_spec_type_from_file_location!
   config.use_transactional_fixtures = false
+
+  if Spree.solidus_gem_version < Gem::Version.new('2.11')
+    config.extend Spree::TestingSupport::AuthorizationHelpers::Request, type: :system
+  end
 end
 
 Capybara.javascript_driver = (ENV['CAPYBARA_DRIVER'] || :selenium_headless).to_sym
