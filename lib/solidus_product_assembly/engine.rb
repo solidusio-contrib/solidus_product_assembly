@@ -2,6 +2,7 @@
 
 require 'solidus_core'
 require 'solidus_support'
+require 'deface'
 
 module SolidusProductAssembly
   class Engine < Rails::Engine

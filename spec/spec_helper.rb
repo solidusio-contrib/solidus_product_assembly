@@ -29,5 +29,3 @@ RSpec.configure do |config|
     config.extend Spree::TestingSupport::AuthorizationHelpers::Request, type: :system
   end
 end
-
-Capybara.javascript_driver = (ENV['CAPYBARA_DRIVER'] || :selenium_headless).to_sym

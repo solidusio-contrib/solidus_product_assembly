@@ -12,19 +12,32 @@ orbs:
 
 jobs:
   run-specs-with-postgres:
-    executor: solidusio_extensions/postgres
+    executor:
+      name: solidusio_extensions/postgres
+      ruby_version: '3.1'
     steps:
-      - browser-tools/install-browser-tools
+      - checkout
+      - browser-tools/install-chrome
       - solidusio_extensions/run-tests
   run-specs-with-mysql:
-    executor: solidusio_extensions/mysql
+    executor:
+      name: solidusio_extensions/mysql
+      ruby_version: '3.0'
     steps:
-      - browser-tools/install-browser-tools
+      - checkout
+      - browser-tools/install-chrome
+      - solidusio_extensions/run-tests
+  run-specs-with-sqlite:
+    executor:
+      name: solidusio_extensions/sqlite
+      ruby_version: '2.7'
+    steps:
+      - checkout
+      - browser-tools/install-chrome
       - solidusio_extensions/run-tests
   lint-code:
-    executor: solidusio_extensions/sqlite-memory
+    executor: solidusio_extensions/sqlite
     steps:
-      - browser-tools/install-browser-tools
       - solidusio_extensions/lint-code
 
 workflows:
@@ -32,6 +45,7 @@ workflows:
     jobs:
       - run-specs-with-postgres
       - run-specs-with-mysql
+      - run-specs-with-sqlite
       - lint-code
 
   "Weekly run specs against master":
@@ -45,3 +59,4 @@ workflows:
     jobs:
       - run-specs-with-postgres
       - run-specs-with-mysql
+      - run-specs-with-sqlite
