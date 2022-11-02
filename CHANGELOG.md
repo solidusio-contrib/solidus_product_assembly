@@ -1,5 +1,15 @@
 # Changelog
 
+## [v1.2.0](https://github.com/solidusio-contrib/solidus_product_assembly/tree/v1.2.0) (2022-11-02)
+
+[Full Changelog](https://github.com/solidusio-contrib/solidus_product_assembly/compare/v1.1.0...v1.2.0)
+
+**Merged pull requests:**
+
+- Fix before payment override [\#112](https://github.com/solidusio-contrib/solidus_product_assembly/pull/112) ([cpfergus1](https://github.com/cpfergus1))
+- Update to use forked solidus\_frontend when needed [\#111](https://github.com/solidusio-contrib/solidus_product_assembly/pull/111) ([waiting-for-dev](https://github.com/waiting-for-dev))
+- Search part globalize [\#109](https://github.com/solidusio-contrib/solidus_product_assembly/pull/109) ([AlistairNorman](https://github.com/AlistairNorman))
+
 ## [v1.1.0](https://github.com/solidusio-contrib/solidus_product_assembly/tree/v1.1.0) (2021-10-19)
 
 [Full Changelog](https://github.com/solidusio-contrib/solidus_product_assembly/compare/v1.0.0...v1.1.0)
