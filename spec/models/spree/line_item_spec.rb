@@ -51,7 +51,7 @@ module Spree
       before do
         product.parts << parts
         order.create_proposed_shipments
-        order.finalize!
+        order.complete!
       end
 
       it "verifies inventory units via OrderInventoryAssembly" do
