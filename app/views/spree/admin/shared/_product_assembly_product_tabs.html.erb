@@ -1,3 +1,3 @@
-<li<%= ' class="active"' if current == "Parts" %>>
-  <%= link_to_with_icon 'sitemap', t('spree.parts'), admin_product_parts_url(@product) %>
-</li>
+<%= content_tag :li, class: ('active' if current == 'Parts') do %>
+  <%= link_to t('spree.parts'), admin_product_parts_url(@product) %>
+<% end if can?(:admin, Spree::AssembliesPart) && !@product.deleted? %>
