@@ -15,7 +15,6 @@ describe "Orders", type: :feature, js: true do
       bundle.parts << [parts]
       line_item.update!(quantity: 3)
       order.reload.create_proposed_shipments
-      order.finalize!
     end
 
     if Spree.solidus_gem_version < Gem::Version.new('2.5')

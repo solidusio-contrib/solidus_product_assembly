@@ -23,7 +23,7 @@ describe "Return Items", type: :feature, js: true do
       3.times { order.next }
       create :payment, order: order, amount: order.amount
       order.next
-      order.complete
+      order.complete!
       order.payments.each(&:capture!)
       order.shipments.each { |s| s.update state: :ready }
       order.shipments.each(&:ship!)
@@ -106,10 +106,15 @@ describe "Return Items", type: :feature, js: true do
 
   context 'when the product is not a bundle' do
     before do
-      order.reload.create_proposed_shipments
-      order.finalize!
-      order.update state: :complete
-      order.shipments.update_all state: :shipped
+      create :refund_reason, name: Spree::RefundReason::RETURN_PROCESSING_REASON, mutable: false
+      order.line_items.each { |li| li.variant.stock_items.first.set_count_on_hand 4 }
+      3.times { order.next }
+      create :payment, order: order, amount: order.amount
+      order.next
+      order.complete!
+      order.payments.each(&:capture!)
+      order.shipments.each { |s| s.update state: :ready }
+      order.shipments.each(&:ship!)
     end
 
     context 'with a single item cart' do

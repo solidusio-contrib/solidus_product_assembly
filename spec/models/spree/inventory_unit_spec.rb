@@ -29,7 +29,6 @@ module Spree
       before do
         product.parts << parts
         order.create_proposed_shipments
-        order.finalize!
       end
 
       it 'will return the percentage of a line item' do
