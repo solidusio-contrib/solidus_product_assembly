@@ -3,12 +3,17 @@
 source 'https://rubygems.org'
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
-branch = ENV.fetch('SOLIDUS_BRANCH', 'master')
+branch = ENV.fetch('SOLIDUS_BRANCH', 'main')
 gem 'solidus', github: 'solidusio/solidus', branch: branch
 
 # The solidus_frontend gem has been pulled out since v3.2
-gem 'solidus_frontend', github: 'solidusio/solidus_frontend' if branch == 'master'
-gem 'solidus_frontend' if branch >= 'v3.2' # rubocop:disable Bundler/DuplicatedGem
+if branch >= 'v3.2'
+  gem 'solidus_frontend'
+elsif branch == 'main'
+  gem 'solidus_frontend', github: 'solidusio/solidus_frontend'
+else
+  gem 'solidus_frontend', github: 'solidusio/solidus', branch: branch
+end
 
 # Needed to help Bundler figure out how to resolve dependencies,
 # otherwise it takes forever to resolve them.
@@ -18,6 +23,7 @@ gem 'rails', '>0.a'
 # Provides basic authentication functionality for testing parts of your engine
 gem 'solidus_auth_devise'
 
+gem 'friendly_id-globalize', github: 'norman/friendly_id-globalize', branch: "master"
 gem 'solidus_globalize', github: 'solidusio-contrib/solidus_globalize'
 
 case ENV.fetch('DB', nil)
