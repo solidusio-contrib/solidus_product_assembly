@@ -51,7 +51,9 @@ describe "Return Items", type: :feature, js: true do
         click_link 'Customer Returns'
         click_link 'New Customer Return'
         find('#select-all').click
-        page.execute_script %{$('option[value="receive"]').attr('selected', 'selected')}
+        page.execute_script <<~JS
+          $('option[value="receive"]').attr('selected', 'selected');
+        JS
         select Spree::StockLocation.first.name, from: 'Stock Location'
         click_button 'Create'
 
@@ -88,7 +90,9 @@ describe "Return Items", type: :feature, js: true do
         click_link 'Customer Returns'
         click_link 'New Customer Return'
         find('#select-all').click
-        page.execute_script %{$('option[value="receive"]').attr('selected', 'selected')}
+        page.execute_script <<~JS
+          $('option[value="receive"]').attr('selected', 'selected');
+        JS
         select Spree::StockLocation.first.name, from: 'Stock Location'
         click_button 'Create'
 
@@ -130,7 +134,7 @@ describe "Return Items", type: :feature, js: true do
 
         within '.return-items-table tbody' do
           expect(page).to have_selector 'tr', count: 1
-          expect(page).to have_selector '.return-item-pre-tax-refund-amount', text: '$10.00', count: 1
+          expect(page).to have_selector :field, class: 'refund-amount-input', with: '10.0', count: 1
         end
       end
     end
@@ -148,7 +152,7 @@ describe "Return Items", type: :feature, js: true do
 
         within '.return-items-table tbody' do
           expect(page).to have_selector 'tr', count: 2
-          expect(page).to have_selector '.return-item-pre-tax-refund-amount', text: '$10.00', count: 2
+          expect(page).to have_selector :field, class: 'refund-amount-input', with: '10.0', count: 2
         end
       end
     end
