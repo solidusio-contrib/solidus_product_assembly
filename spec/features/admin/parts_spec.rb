@@ -14,17 +14,18 @@ describe "Parts", type: :feature, js: true do
     click_on "Update"
   end
 
-  it "add and remove parts" do
+  it "can add and remove parts" do
     visit spree.admin_product_path(tshirt)
     click_on "Parts"
     fill_in "searchtext", with: mug.name
     click_on "Search"
+    click_on "Select"
+    expect(page).to have_link('Delete')
 
-    within("#search_hits") { click_on "Select" }
-    expect(page).to have_content(mug.sku)
+    expect(tshirt.reload.parts).to eq([mug.master])
 
-    within("#product_parts") do
-      find(".remove_admin_product_part_link").click
-    end
+    click_on 'Delete', wait: 30
+    expect(page).not_to have_link('Delete')
+    expect(tshirt.reload.parts).to eq([])
   end
 end

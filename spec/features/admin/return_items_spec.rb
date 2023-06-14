@@ -23,7 +23,7 @@ describe "Return Items", type: :feature, js: true do
       3.times { order.next }
       create :payment, order: order, amount: order.amount
       order.next
-      order.complete
+      order.complete!
       order.payments.each(&:capture!)
       order.shipments.each { |s| s.update state: :ready }
       order.shipments.each(&:ship!)
@@ -51,7 +51,9 @@ describe "Return Items", type: :feature, js: true do
         click_link 'Customer Returns'
         click_link 'New Customer Return'
         find('#select-all').click
-        page.execute_script %{$('option[value="receive"]').attr('selected', 'selected')}
+        page.execute_script <<~JS
+          $('option[value="receive"]').attr('selected', 'selected');
+        JS
         select Spree::StockLocation.first.name, from: 'Stock Location'
         click_button 'Create'
 
@@ -88,7 +90,9 @@ describe "Return Items", type: :feature, js: true do
         click_link 'Customer Returns'
         click_link 'New Customer Return'
         find('#select-all').click
-        page.execute_script %{$('option[value="receive"]').attr('selected', 'selected')}
+        page.execute_script <<~JS
+          $('option[value="receive"]').attr('selected', 'selected');
+        JS
         select Spree::StockLocation.first.name, from: 'Stock Location'
         click_button 'Create'
 
@@ -106,10 +110,15 @@ describe "Return Items", type: :feature, js: true do
 
   context 'when the product is not a bundle' do
     before do
-      order.reload.create_proposed_shipments
-      order.finalize!
-      order.update state: :complete
-      order.shipments.update_all state: :shipped
+      create :refund_reason, name: Spree::RefundReason::RETURN_PROCESSING_REASON, mutable: false
+      order.line_items.each { |li| li.variant.stock_items.first.set_count_on_hand 4 }
+      3.times { order.next }
+      create :payment, order: order, amount: order.amount
+      order.next
+      order.complete!
+      order.payments.each(&:capture!)
+      order.shipments.each { |s| s.update state: :ready }
+      order.shipments.each(&:ship!)
     end
 
     context 'with a single item cart' do
@@ -125,7 +134,7 @@ describe "Return Items", type: :feature, js: true do
 
         within '.return-items-table tbody' do
           expect(page).to have_selector 'tr', count: 1
-          expect(page).to have_selector '.return-item-pre-tax-refund-amount', text: '$10.00', count: 1
+          expect(page).to have_selector :field, class: 'refund-amount-input', with: '10.0', count: 1
         end
       end
     end
@@ -143,7 +152,7 @@ describe "Return Items", type: :feature, js: true do
 
         within '.return-items-table tbody' do
           expect(page).to have_selector 'tr', count: 2
-          expect(page).to have_selector '.return-item-pre-tax-refund-amount', text: '$10.00', count: 2
+          expect(page).to have_selector :field, class: 'refund-amount-input', with: '10.0', count: 2
         end
       end
     end

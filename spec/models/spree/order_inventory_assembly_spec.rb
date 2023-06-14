@@ -17,7 +17,7 @@ module Spree
 
       line_item.update!(quantity: 3)
       order.reload.create_proposed_shipments
-      order.finalize!
+      allow(order).to receive(:completed?).and_return(true)
     end
 
     context "inventory units count" do
@@ -36,7 +36,10 @@ module Spree
         it "inserts new inventory units for every bundle part" do
           expected_units_count = original_units_count + bundle.assemblies_parts.to_a.sum(&:count)
           subject.verify
-          expect(described_class.new(line_item.reload).inventory_units.count).to eql(expected_units_count)
+
+          # needs to reload so that inventory units are fetched from the updated order.shipments
+          updated_units_count = described_class.new(line_item.reload).inventory_units.count
+          expect(updated_units_count).to eql(expected_units_count)
         end
       end
 
@@ -47,7 +50,7 @@ module Spree
           expected_units_count = original_units_count - bundle.assemblies_parts.to_a.sum(&:count)
           subject.verify
 
-          # needs to reload so that inventory units are fetched from updates order.shipments
+          # needs to reload so that inventory units are fetched from the updated order.shipments
           updated_units_count = described_class.new(line_item.reload).inventory_units.count
           expect(updated_units_count).to eql(expected_units_count)
         end
