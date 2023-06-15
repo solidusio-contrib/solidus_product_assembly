@@ -8,14 +8,14 @@ Gem::Specification.new do |spec|
   spec.authors = ['Roman Smirnov']
   spec.email = 'roman@railsdog.com'
 
-  spec.summary = 'Adds opportunity to make bundle of products to your Spree store'
-  spec.description = 'Adds opportunity to make bundle of products to your Spree store'
-  spec.homepage = 'https://github.com/solidusio-contrib/solidus_product_assembly#readme'
+  spec.summary = 'Make bundle of products to your Solidus store'
+  spec.description = 'Make bundle of products to your Solidus store'
+  spec.homepage = 'https://github.com/solidusio-contrib/solidus_product_assembly'
   spec.license = 'BSD-3-Clause'
 
   spec.metadata['homepage_uri'] = spec.homepage
   spec.metadata['source_code_uri'] = 'https://github.com/solidusio-contrib/solidus_product_assembly'
-  spec.metadata['changelog_uri'] = 'https://github.com/SuperGoodSoft/solidus_product_assembly/blob/master/CHANGELOG.md'
+  spec.metadata['changelog_uri'] = 'https://github.com/solidusio-contrib/solidus_product_assembly/releases'
 
   spec.required_ruby_version = Gem::Requirement.new('>= 2.5', '< 4')
 
