@@ -1,0 +1,2 @@
+insert_bottom "[data-hook='cart_item_description']"
+partial "spree/orders/cart_description"
