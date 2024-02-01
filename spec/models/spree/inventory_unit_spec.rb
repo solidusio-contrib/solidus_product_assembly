@@ -18,7 +18,7 @@ module Spree
     end
 
     context 'if the unit is not part of an assembly' do
-      it 'will return the percentage of a line item' do
+      it 'returns the percentage of a line item' do
         expect(subject.percentage_of_line_item).to eql(BigDecimal(1))
       end
     end
@@ -31,7 +31,7 @@ module Spree
         order.create_proposed_shipments
       end
 
-      it 'will return the percentage of a line item' do
+      it 'returns the percentage of a line item' do
         subject.line_item = line_item
         expect(subject.percentage_of_line_item).to eql(BigDecimal(0.5, 2))
       end
