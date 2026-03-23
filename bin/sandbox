@@ -33,7 +33,7 @@ then
   BRANCH=$SOLIDUS_BRANCH
 else
   echo "~~> Use 'export SOLIDUS_BRANCH=[master|v3.2|...]' to control the Solidus branch"
-  BRANCH="master"
+  BRANCH="main"
 fi
 echo "~~> Using branch $BRANCH of solidus"
 
