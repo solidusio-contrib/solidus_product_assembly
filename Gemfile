@@ -21,7 +21,7 @@ end
 gem 'rails', '>0.a'
 
 # Provides basic authentication functionality for testing parts of your engine
-gem 'solidus_auth_devise'
+gem 'solidus_auth_devise', github: 'solidusio/solidus_auth_devise'
 gem "state_machines", "~> 0.6.0"
 
 gem 'friendly_id-globalize', github: 'norman/friendly_id-globalize', branch: "master"
