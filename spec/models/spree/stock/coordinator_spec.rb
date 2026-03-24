@@ -3,32 +3,41 @@
 require 'spec_helper'
 
 RSpec.describe Spree::Stock::SimpleCoordinator do
+  include_context "product is ordered as individual and within a bundle"
+
   describe '#shipments' do
     subject { described_class.new(order) }
 
-    context "order shares variant as individual and within bundle" do
-      include_context "product is ordered as individual and within a bundle"
-
+    context "when ordering many of the same bundle" do
       before { Spree::StockItem.update_all(count_on_hand: 10) }
 
-      context "bundle part requires more units than individual product" do
+      context "when purchasing many of the same bundle" do
         before { order.contents.add(bundle_variant, 5) }
 
         it "includes inventory units for all bundle parts" do
           variant_ids = subject.shipments.flat_map(&:inventory_units).map(&:variant_id)
-          expect(variant_ids).to contain_exactly(*bundle.parts.map(&:id))
+          expect(variant_ids).to contain_exactly(*bundle.parts.map(&:id)*6)
         end
       end
     end
 
-    context "multiple stock locations" do
-      let!(:stock_locations) { (1..3).map { create(:stock_location) } }
-      let(:order) { create(:order_with_line_items) }
-      let(:parts) { (1..3).map { create(:variant) } }
-      let(:bundle_variant) { order.variants.first }
-      let(:bundle) { bundle_variant.product }
+    context "when the parts are split across multiple stock locations" do
+      include_context "product is ordered as individual and within a bundle"
 
-      before { bundle.parts << parts }
+      # Make sure the stock items for each part are in different stock
+      # locations, otherwise the coordinator will just pull from one location
+      # and not test the behavior we want to test.
+      before do
+        create :stock_location
+        Spree::StockItem.destroy_all
+
+        Spree::StockLocation.all.each_with_index do |stock_location, index|
+          Spree::StockItem.create!(
+            stock_location:,
+            variant: bundle.parts[index]
+          ).set_count_on_hand(10)
+        end
+      end
 
       it "includes inventory units for all bundle parts" do
         variant_ids = subject.shipments.flat_map(&:inventory_units).map(&:variant_id)
