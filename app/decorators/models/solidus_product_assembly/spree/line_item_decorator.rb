@@ -3,10 +3,10 @@
 module SolidusProductAssembly
   module Spree
     module LineItemDecorator
-      def self.prepended(base)
-        base.class_eval do
-          scope :assemblies, -> { joins(product: :parts).distinct }
-        end
+      include ActiveSupport::Concern
+
+      prepended do
+        scope :assemblies, -> { joins(product: :parts).distinct }
       end
 
       def any_units_shipped?

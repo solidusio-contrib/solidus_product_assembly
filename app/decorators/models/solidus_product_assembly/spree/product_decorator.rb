@@ -3,39 +3,39 @@
 module SolidusProductAssembly
   module Spree
     module ProductDecorator
-      def self.prepended(base)
-        base.class_eval do
-          has_and_belongs_to_many :parts, class_name: "Spree::Variant",
-                                          join_table: "spree_assemblies_parts",
-                                          foreign_key: "assembly_id", association_foreign_key: "part_id"
+      include ActiveSupport::Concern
 
-          has_many :assemblies_parts, class_name: "Spree::AssembliesPart",
-                                      foreign_key: "assembly_id"
+      prepended do
+        has_and_belongs_to_many :parts, class_name: "Spree::Variant",
+          join_table: "spree_assemblies_parts",
+          foreign_key: "assembly_id", association_foreign_key: "part_id"
 
-          scope :individual_saled, -> { where(individual_sale: true) }
+        has_many :assemblies_parts, class_name: "Spree::AssembliesPart",
+          foreign_key: "assembly_id"
 
-          if defined?(SolidusGlobalize)
-            scope :search_can_be_part, ->(query){
-              not_deleted.available.joins(:master)
-                .joins(:translations)
-                .where(
-                  ::Spree::Product::Translation.arel_table["name"].matches(query)
-                    .or(::Spree::Variant.arel_table["sku"].matches(query))
-                )
-                .where(can_be_part: true)
-                .limit(30)
-            }
-          else
-            scope :search_can_be_part, ->(query){
-              not_deleted.available.joins(:master)
-                .where(arel_table["name"].matches(query).or(::Spree::Variant.arel_table["sku"].matches(query)))
-                .where(can_be_part: true)
-                .limit(30)
-            }
-          end
+        scope :individual_saled, -> { where(individual_sale: true) }
 
-          validate :assembly_cannot_be_part, if: :assembly?
+        if defined?(SolidusGlobalize)
+          scope :search_can_be_part, ->(query) {
+            not_deleted.available.joins(:master)
+              .joins(:translations)
+              .where(
+                ::Spree::Product::Translation.arel_table["name"].matches(query)
+                  .or(::Spree::Variant.arel_table["sku"].matches(query))
+              )
+              .where(can_be_part: true)
+              .limit(30)
+          }
+        else
+          scope :search_can_be_part, ->(query) {
+            not_deleted.available.joins(:master)
+              .where(arel_table["name"].matches(query).or(::Spree::Variant.arel_table["sku"].matches(query)))
+              .where(can_be_part: true)
+              .limit(30)
+          }
         end
+
+        validate :assembly_cannot_be_part, if: :assembly?
       end
 
       def add_part(variant, count = 1)
