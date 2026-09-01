@@ -3,7 +3,7 @@
 module SolidusProductAssembly
   module Spree
     module LineItemDecorator
-      include ActiveSupport::Concern
+      extend ActiveSupport::Concern
 
       prepended do
         scope :assemblies, -> { joins(product: :parts).distinct }
