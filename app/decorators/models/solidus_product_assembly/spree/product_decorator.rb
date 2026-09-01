@@ -3,7 +3,7 @@
 module SolidusProductAssembly
   module Spree
     module ProductDecorator
-      include ActiveSupport::Concern
+      extend ActiveSupport::Concern
 
       prepended do
         has_and_belongs_to_many :parts, class_name: "Spree::Variant",

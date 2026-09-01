@@ -3,7 +3,7 @@
 module SolidusProductAssembly
   module Spree
     module ReturnItemDecorator
-      include ActiveSupport::Concern
+      extend ActiveSupport::Concern
 
       prepended do
         self.refund_amount_calculator = ::Spree::Calculator::Returns::AssembliesDefaultRefundAmount
